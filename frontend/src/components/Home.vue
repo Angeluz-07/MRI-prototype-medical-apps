@@ -3,9 +3,15 @@
 
 <template>
     <div class="container">
-        <div id="" class="row">
-            <h1>My medical App</h1>
-        </div>
+        <div class="row">
+			<!-- Use entire width to display header -->
+			<div class="col-sm-12">
+				<div class="header stacked">
+					<h1>My MRI Medical App</h1>
+					<h6>App to load MRI images and display</h6>
+				</div>
+			</div>
+		</div>
         <div id="main_content" class="row">
             <div class="col-8">
                 <div class="papaya" data-params="params"></div>
@@ -44,4 +50,15 @@
     flex-direction: column;
 }
 
+.header {
+padding:2% 0%;/*set padding above and none in sides*/
+
+color:white;
+background-color:#3B4990;
+
+}
+
+#main_content {			
+    margin: 2% ;
+}
 </style>
