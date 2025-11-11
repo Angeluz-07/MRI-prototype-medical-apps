@@ -52,6 +52,8 @@ def segment_brain(
     # Process the file
     with open(f"{fileMRI.filename}", "wb") as buffer:
         shutil.copyfileobj(fileMRI.file, buffer)
+    import img_process
+    img_process.run(fileMRI.filename)
 
     # Use the other data
     print(f"Received other property: {operation}")
