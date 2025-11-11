@@ -20,44 +20,39 @@ const formStatus = reactive({
 // --- Methods ---
 // Handles form submission
 const handleSubmit = async () => {
- 
   formStatus.isUploading = true
   formStatus.message = 'Uploading file...'
   formStatus.messageClass = 'info'
 
-const result = FakeService.process(formData);
-formStatus.isUploading=false
-formStatus.message = "Successfully sent"
-formStatus.messageClass = 'success'
+  // const result = FakeService.process(formData)
+  // formStatus.isUploading = false
+  // formStatus.message = 'Successfully sent'
+  // formStatus.messageClass = 'success'
 
-  //console.log('Form Data is ready here!', formData)
+  console.log('Form Data is ready here!', formData)
 
-  //   // 1. Create FormData object
+  const API_ENDPOINT = "http://127.0.0.1:8000/mri/segment-brain"
+  try {
+    const response = await axios.post(API_ENDPOINT, formData, {
+      // It's good practice to explicitly set the Content-Type header,
+      // but Axios/browser often handle this automatically for FormData.
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      // You can also add an onUploadProgress callback here for a progress bar
+    })
 
-  //   try {
-  //     // 2. Send the request using axios
-  //     const response = await axios.post(API_ENDPOINT, formData, {
-  //       // It's good practice to explicitly set the Content-Type header,
-  //       // but Axios/browser often handle this automatically for FormData.
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //       // You can also add an onUploadProgress callback here for a progress bar
-  //     })
+    // 3. Handle the successful (asynchronous) response
+    const fname = response.data.filename
+    formStatus.message = `File uploaded!  fname: ${fname}.`
+    formStatus.messageClass = 'success'
 
-  //     // 3. Handle the successful (asynchronous) response
-  //     const jobId = response.data.job_id // Assuming your Python backend returns a job_id
-  //     message.value = `File uploaded! Processing started. Job ID: ${jobId}. Now polling for results...`
-  //     messageClass.value = 'success'
-
-  //     // Start polling or open a WebSocket connection here using the jobId
-  //     // (See previous discussion on asynchronous workflows)
-  //   } catch (error) {
-  //     message.value = 'Upload failed. ' + (error.response?.data?.detail || error.message)
-  //     messageClass.value = 'error'
-  //   } finally {
-  //     isUploading.value = false
-  //   }
+  } catch (error) {
+    message.value = 'Upload failed. ' + (error.response?.data?.detail || error.message)
+    messageClass.value = 'error'
+  } finally {
+    formStatus.isUploading = false
+  }
 }
 
 const loadImgToPapayaViewer = (event) => {
