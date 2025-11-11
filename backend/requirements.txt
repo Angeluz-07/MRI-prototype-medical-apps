@@ -1,1 +1,6 @@
 fastapi[standard]
+
+# for mri brain extraction
+opencv-python-headless
+antspyx==0.5.4
+antspynet
