@@ -41,24 +41,36 @@ def update_task_status(id: int):
     item.status = not (item.status)
     return {"task": item}
 
+from repository import FileRepository
+@app.get("/mri/images")
+def mri_images():
+
+    return {"images": FileRepository().get_all()}
+
+@app.get("/mri/images/{id}")
+def mri_images(id:str):
+    return {"basestr": FileRepository().get_str_by_id(id)}
 from fastapi import FastAPI, UploadFile, File, Form
 from typing import Annotated
-import shutil
+
+@app.post("/mri/images")
+def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
+    filename = FileRepository().add_raw(fileMRI)
+    return {"filename":filename}
+
+
+from pydantic import BaseModel
+
+
+class FileOperation(BaseModel):
+    fileName: str
+    operation: str 
+    
+
 @app.post("/mri/segment-brain")
-def segment_brain(
-    fileMRI: Annotated[UploadFile, File(...)],
-    operation: Annotated[str, Form(...)]
-):
-    # Process the file
-    with open(f"{fileMRI.filename}", "wb") as buffer:
-        shutil.copyfileobj(fileMRI.file, buffer)
-    import img_process
-    img_process.run(fileMRI.filename)
-
+def segment_brain(file_operation:FileOperation):
+    FileRepository().service_segment_brain(file_operation.fileName)
     # Use the other data
-    print(f"Received other property: {operation}")
+    print(f"Received other property: {file_operation.operation}")
 
-    return {
-        "filename": fileMRI.filename,
-        "other_property_value": operation
-    }
+    return { "message": "success"}

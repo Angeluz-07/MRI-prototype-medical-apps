@@ -11,9 +11,10 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Uncomment when deploying
+# COPY . .
 
 # Expose gradio port
 EXPOSE 80 
 
-CMD ["sh", "-c", "fastapi run main.py --port 80"]
+CMD ["sh", "-c", "fastapi dev main.py --host 0.0.0.0 --port 80"]

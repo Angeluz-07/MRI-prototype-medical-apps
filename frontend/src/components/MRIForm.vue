@@ -1,10 +1,145 @@
 <script setup>
-import { reactive, ref, inject } from 'vue'
+import { reactive, ref, inject , onMounted,computed, toRaw} from 'vue'
 import axios from 'axios'
 import FakeService from '@/services/FakeService'
 
 // --- State Variables ---
+const items = ref([]) // To store the list of retrieved items
+const imageList = ref([]);
+const isLoadingInitialList = ref(true);
+const fetchInitialIds = async () => {
+    isLoadingInitialList.value = true;
+    
+    // 💡 REPLACE THIS WITH YOUR ACTUAL ENDPOINT
+    const API_URL = 'http://127.0.0.1:8080/mri/images'
+    const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/images'; 
+    
+    try {
+        // --- SIMULATION ---
+        // Simulate API call returning a list of strings (IDs)
+        const response = await axios.get(INITIAL_API_ENDPOINT);
+        const rawIds = response.data.images;
+        //const rawIds = ['img_001', 'img_002', 'img_003', 'img_004']; 
+        // --- END SIMULATION ---
+        
+        // **CRITICAL STEP:** Map the raw ID strings into the structured object array
+        imageList.value = rawIds.map(id => ({
+            id: id,
+            selected: false,
+            strValue: null,
+            isFetching: false // Temporary flag to prevent double-clicks during fetch
+        }));
 
+    } catch (error) {
+        console.error("Error fetching initial IDs:", error);
+    } finally {
+        isLoadingInitialList.value = false;
+    }
+};
+
+// Fetch the IDs when the component mounts
+onMounted(() => {
+    fetchInitialIds();
+});
+
+// --- 3. Subsequent Value Fetch Simulation (Unchanged) ---
+
+const fetchStringValue = async (id) => {
+  // Replace this with your actual API endpoint and logic for the single value
+  const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/images'; 
+  const API_ENDPOINT = `http://127.0.0.1:8080/mri/images/${id}`;
+  console.log(`📡 Hitting endpoint: ${API_ENDPOINT}`);
+  
+  try {
+    // Simulate network delay and data response
+    await new Promise(resolve => setTimeout(resolve, 500)); 
+    const response = await axios.get(API_ENDPOINT);
+    return response.data.basestr;
+
+  } catch (error) {
+    console.error(`Error fetching strValue for ${id}:`, error);
+    return null;
+  }
+};
+
+const toggleImageSelection = async (id, isChecked) => {
+  const index = imageList.value.findIndex(img => img.id === id);
+  if (index === -1) return;
+
+  const image = imageList.value[index];
+
+  // 1. Update the selection status
+  image.selected = isChecked;
+
+  // 2. Conditional Fetch Logic: Only if selected AND value is missing
+  if (isChecked && !image.strValue) {
+    if (image.isFetching) return; 
+
+    image.isFetching = true;
+
+    const value = await fetchStringValue(id);
+    
+    // 3. Update the strValue if successful
+    if (value) {
+      imageList.value[index].strValue = value;
+    }
+    
+    image.isFetching = false;
+  }
+  var params = []
+  params['showControlBar'] = true;
+  params['images'] = rawStringValues.value
+  console.log( params['encodedImages'])
+  papaya.Container.resetViewer(0, params)
+};
+
+const selectedData = computed(() => {
+  return imageList.value
+    .filter(image => image.selected)
+    .map(image => ({
+      id: image.id,
+    }));
+});
+
+const selectedDataAll = computed(() => {
+  return imageList.value
+    .filter(image => image.selected)
+    .map(image => ({
+      id: image.id,
+      strValue: `data:image/nifti;base64,${image.strValue}`
+    }));
+});
+
+const rawStringValues = computed(() => {
+  // 1. Get the current value of the computed property (which is an array of objects)
+  const data = selectedDataAll.value;
+  
+  // 2. Use Vue's toRaw() utility to strip the Proxy/Ref wrapper if needed.
+  //    This is crucial for ensuring you get a standard JS object/array.
+  const rawArray = toRaw(data); 
+  console.log
+  // 3. Map the raw array to extract ONLY the strValue
+  return rawArray
+    .map(item => item.strValue)
+    // Optional: Filter out any null values if a fetch failed
+    //.filter(str => str !== null); 
+});
+
+// This array will store the IDs of the selected items
+const selectedItems = ref([]);
+
+// Function to handle checkbox changes and update selectedItems
+const handleCheckboxChange = (item) => {
+  if (item) {
+    selectedItems.value.push(item);
+  } else {
+    const index = selectedItems.value.indexOf(item);
+    if (index > -1) {
+      selectedItems.value.splice(index, 1);
+    }
+  }
+  console.log(selectedItems)
+};
 const formData = reactive({
   fileMRI: '',
   operation: '',
@@ -88,33 +223,51 @@ const handleFileChange = (event) => {
 </script>
 
 <template>
-  <form enctype="multipart/form-data" method="post" @submit.prevent="handleSubmit">
-    <input
-      type="file"
-      name="fileMRI"
-      id="file"
-      ref="fileInputRef"
-      class="form-control"
-      @change="handleFileChange"
-      required
-    />
+  <h3>Viewer</h3>
+  <div>
+    <h2>Image List Selector</h2>
+    
+    <div v-if="isLoadingInitialList">
+      Loading image IDs...
+    </div>
+    
+    <ul v-else class="image-list">
+      <li v-for="image in imageList" :key="image.id" class="list-item">
+        <input 
+          type="checkbox" 
+          :id="`checkbox-${image.id}`" 
+          :checked="image.selected"
+          @change="toggleImageSelection(image.id, $event.target.checked)"
+        />
+        <label :for="`checkbox-${image.id}`">
+          {{ image.id }}
+          <span v-if="image.strValue" class="fetched-indicator"> (Value Present)</span>
+        </label>
+      </li>
+    </ul>
 
+    <div class="selected-data">
+      <h3>Selected Image Data (IDs and String Values)</h3>
+      <pre>{{ selectedData }}</pre>
+    </div>
+  </div>
+  
     <div class="papaya" data-params="params" id="ii"></div>
 
     <!--a class="mx-2" href="https://rii-mango.github.io/Papaya/"><i>built with Papaya.js</i></a-->
-    <select id="option" class="form-select" v-model="formData.operation" required>
+    <!--select id="option" class="form-select" v-model="formData.operation" required>
       <option value="" disabled>-- Select an option --</option>
       <option value="fast">Fast Processing</option>
       <option value="detailed">Detailed Analysis</option>
       <option value="archive">Archive Only</option>
-    </select>
+    </select-->
 
     <!--button class="btn btn-success" type="submit">run</button-->
     <button class="btn btn-success" type="submit" :disabled="formStatus.isUploading">
       {{ formStatus.isUploading ? 'Uploading...' : 'Start Processing' }}
     </button>
     <p v-if="formStatus.message" :class="formStatus.messageClass">{{ formStatus.message }}</p>
-  </form>
+
 </template>
 
 <style scoped></style>

@@ -1,6 +1,7 @@
 <script setup>
 import MRIForm from './MRIForm.vue';
-
+import PoolOfImages from './PoolOfImages.vue';
+import SelectOperation from './SelectOperation.vue';
 </script>
 
 
@@ -17,7 +18,10 @@ import MRIForm from './MRIForm.vue';
 		</div>
         <div id="main_content" class="row">
             <div class="col-12 col-md-10 col-xl-12">
-           
+                <pool-of-images></pool-of-images>
+            </div>
+            <div class="col-12 col-md-10 col-xl-12">
+                <select-operation></select-operation>
             </div>
             <div class="col-8">
                 <m-r-i-form></m-r-i-form>
