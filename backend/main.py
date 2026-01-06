@@ -50,6 +50,7 @@ def mri_images():
 @app.get("/mri/images/{id}")
 def mri_images(id:str):
     return {"basestr": FileRepository().get_str_by_id(id)}
+    
 from fastapi import FastAPI, UploadFile, File, Form
 from typing import Annotated
 

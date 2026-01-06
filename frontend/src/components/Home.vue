@@ -17,17 +17,31 @@ import SelectOperation from './SelectOperation.vue';
 			</div>
 		</div>
         <div id="main_content" class="row">
+            <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+            </ul>
             <div class="col-12 col-md-10 col-xl-12">
                 <pool-of-images></pool-of-images>
             </div>
             <div class="col-12 col-md-10 col-xl-12">
                 <select-operation></select-operation>
             </div>
-            <div class="col-8">
+            <div class="">
                 <m-r-i-form></m-r-i-form>
             </div>
             
-            <div class="col-4" id="right_side_content">
+            <!--div class="col-4" id="right_side_content">
                 <h4>Features:</h4>
                 <ul>
                 <li>
@@ -43,7 +57,7 @@ import SelectOperation from './SelectOperation.vue';
                     Change color table
                 </li>
                 </ul>
-            </div>
+            </div-->
         </div>
     </div>
 </template>
