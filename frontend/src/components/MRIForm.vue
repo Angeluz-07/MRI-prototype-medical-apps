@@ -219,7 +219,7 @@ const handleFileChange = (event) => {
 </script>
 
 <template>
-  <h3>Viewer</h3>
+  <!--h3>Viewer</h3-->
   <div class="row">
 
     <div class="col-4">

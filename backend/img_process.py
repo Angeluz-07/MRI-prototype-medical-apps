@@ -24,10 +24,10 @@ def run(raw_img_path):
     print("processing...", raw_img_path)
     raw_img_ants = ants.image_read(raw_img_path, reorient='IAL')
     print("img read...")
-    # prob_brain_mask = brain_extraction(raw_img_ants,modality="t1",verbose=True) # todo:fix issue of weights being retrieved on running time.
-    # print("prob brain mask extracted...")
-    # brain_mask = ants.get_mask(prob_brain_mask, low_thresh=0.5)
-    # print("brain mask got...")
-    # out_path =  raw_img_path.split('.')[0] +'_brainMask.nii.gz'
-    # brain_mask.to_file(out_path)
+    prob_brain_mask = brain_extraction(raw_img_ants,modality="t1",verbose=True) # todo:fix issue of weights being retrieved on running time.
+    print("prob brain mask extracted...")
+    brain_mask = ants.get_mask(prob_brain_mask, low_thresh=0.5)
+    print("brain mask got...")
+    out_path =  raw_img_path.split('.')[0] +'_brainMask.nii.gz'
+    brain_mask.to_file(out_path)
     print("brain mask saved...")

@@ -53,7 +53,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3>Images</h3>
+  <!--h3>Images</h3-->
   <form class="row" enctype="multipart/form-data" method="post" @submit.prevent="handleSubmit">
     <div class="col-6">
       <input
