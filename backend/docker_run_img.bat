@@ -1,1 +1,1 @@
-docker run -v %cd%:/app -v %cd%\out:/app/out -p 8080:80 -it mri-medical-app-backend
+docker run -v %cd%:/app -p 8080:80 -it mri-medical-app-backend

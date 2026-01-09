@@ -60,9 +60,7 @@ onMounted(() => {
     <div class="col-4">
       <select id="option" class="form-select" v-model="formData.operation" required>
         <option value="" disabled>Select operation</option>
-        <option value="fast">Fast Processing</option>
-        <option value="detailed">Detailed Analysis</option>
-        <option value="archive">Archive Only</option>
+        <option value="fast">Brain Masking</option>
       </select>
     </div>
 

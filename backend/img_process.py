@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.service.filepath_manager import FilepathManager
 import ants
 print(f'AntsPy version = {ants.__version__}')
 from antspynet.utilities import brain_extraction
@@ -31,3 +32,10 @@ def run(raw_img_path):
     out_path =  raw_img_path.split('.')[0] +'_brainMask.nii.gz'
     brain_mask.to_file(out_path)
     print("brain mask saved...")
+
+    print("saving brain masked...")
+    masked = ants.mask_image(raw_img_ants, brain_mask)
+    out_path= FilepathManager.get_out_path(raw_img_path,'brainMasked')
+    print(out_path)
+    masked.to_file(out_path)
+    print("saved brain masked...")

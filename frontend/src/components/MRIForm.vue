@@ -12,7 +12,7 @@ const fetchInitialIds = async () => {
 
   // 💡 REPLACE THIS WITH YOUR ACTUAL ENDPOINT
   const API_URL = 'http://127.0.0.1:8080/mri/images'
-  const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/images'
+  const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/results'
 
   try {
     // --- SIMULATION ---
@@ -45,8 +45,8 @@ onMounted(() => {
 
 const fetchStringValue = async (id) => {
   // Replace this with your actual API endpoint and logic for the single value
-  const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/images'
-  const API_ENDPOINT = `http://127.0.0.1:8080/mri/images/${id}`
+  //const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/images'
+  const API_ENDPOINT = `http://127.0.0.1:8080/mri/results/${id}`
   console.log(`📡 Hitting endpoint: ${API_ENDPOINT}`)
 
   try {

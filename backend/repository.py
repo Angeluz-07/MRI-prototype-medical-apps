@@ -25,6 +25,7 @@ class Repository(ABC):
 from pathlib import Path
 import shutil
 WORKSPACE_DEFAULT_FOLDER = Path(__file__).parent / "workspace" / "default"
+RESULTS_FOLDER = Path(__file__).parent / "out"
 
 class File(Item):
     path: str
@@ -63,6 +64,24 @@ class FileRepository(Repository):
         path = Path(WORKSPACE_DEFAULT_FOLDER) / id
         s = get_base64_str_from_path(path)
         return s
+    def get_by_id(self, id):
+        pass
+
+
+class FileRepositoryResults(Repository):
+    def get_all(self):
+        folder_path = Path(RESULTS_FOLDER)   
+        result =  [file_path.name for file_path in folder_path.iterdir() if file_path.is_file()]
+        return result
+
+    def add(self, file: File):
+        pass
+        
+    def get_str_by_id(self, id):
+        path = Path(RESULTS_FOLDER) / id
+        s = get_base64_str_from_path(path)
+        return s
+
     def get_by_id(self, id):
         pass
 
