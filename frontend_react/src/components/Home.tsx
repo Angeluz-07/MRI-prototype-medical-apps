@@ -2,7 +2,7 @@
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import './Home.css'
-import PoolOfImages from './PoolOfImages';
+import ImagesWorkspace from './ImagesWorkspace';
 
 function Home() {
   return (
@@ -64,7 +64,9 @@ function Home() {
               role="tabpanel"
               aria-labelledby="nav-home-tab"
             >
-              <PoolOfImages></PoolOfImages>
+
+            <ImagesWorkspace></ImagesWorkspace>
+
             </div>
             <div
               className="tab-pane fade"
