@@ -3,6 +3,7 @@
 //import viteLogo from '/vite.svg'
 import './Home.css'
 import ImagesWorkspace from './ImagesWorkspace';
+import ResultsViewer from './ResultsViewer';
 import SelectOperation from './SelectOperation';
 
 function Home() {
@@ -83,7 +84,7 @@ function Home() {
               role="tabpanel"
               aria-labelledby="nav-contact-tab"
             >
-              3
+              <ResultsViewer></ResultsViewer>
             </div>
           </div>
         </div>

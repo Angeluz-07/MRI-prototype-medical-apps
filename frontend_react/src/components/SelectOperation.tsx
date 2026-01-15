@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-|
+
 function SelectOperation() {
   const [items, setItems] = useState<Array<string>>([]);
-  const [file, setFile] = useState<string>();
+  const [file, setFile] = useState<string>("");
   const [feedbackMsg, setfeedbackMsg] = useState<string>(
     "waiting for selection"
   );
