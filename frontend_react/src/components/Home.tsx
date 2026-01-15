@@ -3,6 +3,7 @@
 //import viteLogo from '/vite.svg'
 import './Home.css'
 import ImagesWorkspace from './ImagesWorkspace';
+import SelectOperation from './SelectOperation';
 
 function Home() {
   return (
@@ -74,7 +75,7 @@ function Home() {
               role="tabpanel"
               aria-labelledby="nav-profile-tab"
             >
-              2
+              <SelectOperation></SelectOperation>
             </div>
             <div
               className="tab-pane fade col-12"
