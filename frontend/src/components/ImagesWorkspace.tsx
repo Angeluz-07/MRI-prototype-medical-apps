@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ImagesContainer from "./ImagesContainer";
 import UploadImages from "./UploadImages";
+import InputsViewer from "./InputsViewer";
 
 function ImagesWorkspace() {
     const [refreshKey, setRefreshKey] = useState(0);
@@ -11,6 +12,7 @@ function ImagesWorkspace() {
     <>
       <UploadImages onUploadSuccess={handleUploadSuccess}></UploadImages>
       <ImagesContainer refreshTrigger={refreshKey}></ImagesContainer>
+      <InputsViewer></InputsViewer>
     </>
   );
 }

@@ -14,7 +14,9 @@ function NiftiViewer({ imgBase64Code }: NiftiViewerProps) {
       let params = [];
       params["showControlBar"] = true;
       params["images"] = [finalVal];
+      params["containerID"] = "1234";
       papaya.Container.resetViewer(0, params);
+      console.log(papayaContainers)
     }
   }, [imgBase64Code]);
 

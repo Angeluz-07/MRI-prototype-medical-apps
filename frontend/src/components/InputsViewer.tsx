@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import NiftiViewerContainer from "./NiftiViewerContainer";
 
-function ResultsViewer() {
+function InputsViewer() {
   const [items, setItems] = useState<Array<string>>([]);
   const [file, setFile] = useState<string>("");
 
   useEffect(() => {
     const fetchItems = async () => {
       // A placeholder URL - **Replace this with your actual API endpoint**
-      const API_URL = "http://127.0.0.1:8080/mri/results";
+      const API_URL = "http://127.0.0.1:8080/mri/images";
 
       try {
         const response = await axios.get(API_URL);
@@ -48,9 +48,10 @@ function ResultsViewer() {
           ))}
         </select>
       </div>
-      <NiftiViewerContainer imgId={file} endpoint={"mri/results"}></NiftiViewerContainer>
+      <NiftiViewerContainer imgId={file} endpoint={"mri/images"}></NiftiViewerContainer>
+      
     </>
   );
 }
 
-export default ResultsViewer;
+export default InputsViewer;

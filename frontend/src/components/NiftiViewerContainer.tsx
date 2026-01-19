@@ -4,15 +4,16 @@ import NiftiViewer from "./NiftiViewer";
 
 type NiftiViewerContainerProps = {
   imgId: string;
+  endpoint : string;
 };
 
-function NiftiViewerContainer({ imgId }: NiftiViewerContainerProps) {
+function NiftiViewerContainer({ imgId , endpoint }: NiftiViewerContainerProps) {
   const [imgBase64Code, setImgBase64Code] = useState<string>("");
   useEffect(() => {
-    const fetchStringValue = async (id: string) => {
+    const fetchStringValue = async (id: string, endpoint : string) => {
       // Replace this with your actual API endpoint and logic for the single value
       //const INITIAL_API_ENDPOINT = 'http://127.0.0.1:8080/mri/images'
-      const API_ENDPOINT = `http://127.0.0.1:8080/mri/results/${id}`;
+      const API_ENDPOINT = `http://127.0.0.1:8080/${endpoint}/${id}`;
       console.log(`📡 Hitting endpoint: ${API_ENDPOINT}`);
 
       try {
@@ -26,7 +27,7 @@ function NiftiViewerContainer({ imgId }: NiftiViewerContainerProps) {
         return null;
       }
     };
-    fetchStringValue(imgId)
+    fetchStringValue(imgId, endpoint)
   }, [imgId]);
 
   return (
