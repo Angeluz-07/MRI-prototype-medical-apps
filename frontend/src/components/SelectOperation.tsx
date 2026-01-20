@@ -63,7 +63,7 @@ function SelectOperation() {
       <form className="row" method="post" onSubmit={handleSubmit}>
         <div className="col-4">
           <select
-            id="option"
+            id=""
             className="form-select"
             value={file}
             onChange={handleChange}

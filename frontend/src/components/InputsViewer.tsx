@@ -33,7 +33,7 @@ function InputsViewer() {
     <>
       <div className="col-4">
         <select
-          id="option"
+          id=""
           className="form-select"
           value={file}
           onChange={handleChange}
@@ -48,7 +48,7 @@ function InputsViewer() {
           ))}
         </select>
       </div>
-      <NiftiViewerContainer imgId={file} endpoint={"mri/images"}></NiftiViewerContainer>
+      <NiftiViewerContainer imgId={file} endpoint={"mri/images"} containerId={10}></NiftiViewerContainer>
       
     </>
   );

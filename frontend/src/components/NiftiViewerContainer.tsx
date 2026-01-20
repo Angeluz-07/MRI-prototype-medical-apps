@@ -5,9 +5,10 @@ import NiftiViewer from "./NiftiViewer";
 type NiftiViewerContainerProps = {
   imgId: string;
   endpoint : string;
+  containerId: number;
 };
 
-function NiftiViewerContainer({ imgId , endpoint }: NiftiViewerContainerProps) {
+function NiftiViewerContainer({ imgId , endpoint , containerId}: NiftiViewerContainerProps) {
   const [imgBase64Code, setImgBase64Code] = useState<string>("");
   useEffect(() => {
     const fetchStringValue = async (id: string, endpoint : string) => {
@@ -32,7 +33,7 @@ function NiftiViewerContainer({ imgId , endpoint }: NiftiViewerContainerProps) {
 
   return (
     <>
-      <NiftiViewer imgBase64Code={imgBase64Code}></NiftiViewer>
+      <NiftiViewer imgBase64Code={imgBase64Code} containerId={containerId}></NiftiViewer>
     </>
   );
 }
