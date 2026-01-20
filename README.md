@@ -1,3 +1,18 @@
 # MRI-prototype-medical-apps
-Templates to create prototype of medical apps with focusing in MRI images.
+Web application built with Python & React.
 
+# Features
+- Load MRI Images and save them to workspace
+- Apply Algorithms(Current: Just Brain Masking)
+- Visualize MRI images, inputs and results
+
+# Stack
+- Python / FastAPI
+- React
+- Papaya JS
+- Docker
+
+# RoadMap
+- User Context
+- More Algorithms
+- Parametrize Components, so inputs of different domains can be plugged in
