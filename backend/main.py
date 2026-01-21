@@ -88,4 +88,4 @@ def segment_brain(file_operation:FileOperation):
 from src.repository.operations import InMemoryOperationsRepository
 @app.get("/operations")
 def get_operations():
-    return {"operations":InMemoryOperationsRepository().get_all()}
+    return {"items":InMemoryOperationsRepository().get_all()}
