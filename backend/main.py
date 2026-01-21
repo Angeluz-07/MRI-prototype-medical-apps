@@ -84,3 +84,8 @@ def segment_brain(file_operation:FileOperation):
     print(f"Received other property: {file_operation.operation}")
 
     return { "message": "success"}
+
+from src.repository.operations import InMemoryOperationsRepository
+@app.get("/operations")
+def get_operations():
+    return {"operations":InMemoryOperationsRepository().get_all()}
