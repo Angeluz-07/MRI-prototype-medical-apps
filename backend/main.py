@@ -85,7 +85,20 @@ def segment_brain(file_operation:FileOperation):
 
     return { "message": "success"}
 
-from src.repository.operations import InMemoryOperationsRepository
-@app.get("/operations")
+from src.domain.services import get_algorithms
+from pydantic import BaseModel, ConfigDict
+from typing import List
+
+class AlgorithmPublicSchema(BaseModel):
+    # This configuration is required to map from objects/dataclasses
+    model_config = ConfigDict(from_attributes=True)
+    id: int 
+    name: str
+    description: str
+    
+class AlgorithmsResponse(BaseModel):
+    items: List[AlgorithmPublicSchema]
+
+@app.get("/algorithms", response_model=AlgorithmsResponse)
 def get_operations():
-    return {"items":InMemoryOperationsRepository().get_all()}
+    return {"items":get_algorithms()}

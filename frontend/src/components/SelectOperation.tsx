@@ -32,7 +32,7 @@ function SelectOperation() {
 
     const fetchOperations = async () => {
       // A placeholder URL - **Replace this with your actual API endpoint**
-      const API_URL = "http://127.0.0.1:8080/operations";
+      const API_URL = "http://127.0.0.1:8080/algorithms";
 
       try {
         const response = await axios.get(API_URL);
