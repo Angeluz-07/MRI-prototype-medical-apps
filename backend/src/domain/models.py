@@ -15,3 +15,7 @@ class Execution:
     id: int 
     message: str
     timestamp: datetime
+
+@dataclass
+class File:
+    path: str

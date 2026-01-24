@@ -70,16 +70,14 @@ def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
 
 
 from pydantic import BaseModel
-
-
 class FileOperation(BaseModel):
     fileName: str
     operation: str 
     
-
+from src.domain.services import img_process_run
 @app.post("/mri/segment-brain")
 def segment_brain(file_operation:FileOperation):
-    FileRepository().service_segment_brain(file_operation.fileName)
+    img_process_run(file_operation.fileName)
     # Use the other data
     print(f"Received other property: {file_operation.operation}")
 
