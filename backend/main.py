@@ -70,20 +70,17 @@ def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
 
 
 from pydantic import BaseModel
-class FileOperation(BaseModel):
-    fileName: str
-    operation: str 
+class Algorithm(BaseModel):
+    filename: str
+    name: str 
     
-from src.domain.services import img_process_run
-@app.post("/mri/segment-brain")
-def segment_brain(file_operation:FileOperation):
-    img_process_run(file_operation.fileName)
-    # Use the other data
-    print(f"Received other property: {file_operation.operation}")
+from src.service_layer.algorithm  import run_algorithm
+@app.post("/algorithm/run")
+def segment_brain(algorithm:Algorithm):
+    msg = run_algorithm(algorithm.filename, algorithm.name)
+    return { "message": msg }
 
-    return { "message": "success"}
-
-from src.domain.services import get_algorithms
+from src.service_layer.algorithm import get_algorithms
 from pydantic import BaseModel, ConfigDict
 from typing import List
 

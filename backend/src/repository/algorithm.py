@@ -21,7 +21,7 @@ class InMemoryAlgorithmRepository(Repository):
     
     def __init__(self):
         self.items = [
-            Algorithm(id=1,name="My first alg", description="dummy 1"), 
+            Algorithm(id=1,name="brain_extraction", description="Extracts the brain from an mri image."), 
             Algorithm(id=2,name="My second alg",description="dummy 2"), 
             Algorithm(id=3,name="My third alg", description="dummy 3")
         ]

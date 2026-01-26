@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import NiftiViewerContainer from "./NiftiViewerContainer";
 
+// todo: change reference from "operation" to "algorithm"
 function SelectOperation() {
   const [items, setItems] = useState<Array<string>>([]);
   const [file, setFile] = useState<string>("");
@@ -50,12 +51,12 @@ function SelectOperation() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("fileName", file); // Append binary data to FormData
-    formData.append("operation", "dummy");
+    formData.append("filename", file); // Append binary data to FormData
+    formData.append("name", operation);
 
     //console.log(Object.fromEntries(formData));
 
-    const API_ENDPOINT = "http://127.0.0.1:8080/mri/segment-brain";
+    const API_ENDPOINT = "http://127.0.0.1:8080/algorithm/run";
     try {
       setfeedbackMsg("processing");
       const response = await axios.post(API_ENDPOINT, formData, {
@@ -80,8 +81,11 @@ function SelectOperation() {
   };
 
   const handleChangeOperation = (event) => {
+    const selectedOption = event.target.selectedOptions[0];
+    const description = selectedOption.dataset.description; 
+
     setOperation(event.target.value);
-    setOperationDescription(`Description : ${event.target.value}`);
+    setOperationDescription(`Description : ${description}`);
   };
 
   return (
@@ -127,7 +131,7 @@ function SelectOperation() {
               </option>
 
               {operations.map((item) => (
-                <option key={item.id} value={item.description}>
+                <option key={item.id} value={item.name} data-description={item.description}>
                   {item.name}
                 </option>
               ))}
@@ -143,6 +147,7 @@ function SelectOperation() {
         <div className="row">
           <div className="card col-4 m-2">{operationDescription}</div>
         </div>
+        {feedbackMsg}
       </form>
     </>
   );

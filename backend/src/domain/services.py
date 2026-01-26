@@ -1,17 +1,9 @@
-from src.repository.algorithm import InMemoryAlgorithmRepository
-from src.repository.file import FileRepository
 
-def get_algorithms():
-    return InMemoryAlgorithmRepository().get_all()
-
-def img_process_run(filename):
-    img_full_path = FileRepository().get_full_path(filename)
-    print(img_full_path)
-    _img_process_run(img_full_path)
 
 from src.service.filepath_manager import FilepathManager
 import ants
 from antspynet.utilities import brain_extraction
+
 def _img_process_run(raw_img_path):
     print(f'AntsPy version = {ants.__version__}')
     print("processing...", raw_img_path)
@@ -31,3 +23,7 @@ def _img_process_run(raw_img_path):
     print(out_path)
     masked.to_file(out_path)
     print("saved brain masked...")
+
+ALGORITHMS = {
+    "brain_extraction" : _img_process_run
+}
