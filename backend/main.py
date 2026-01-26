@@ -97,3 +97,23 @@ class AlgorithmsResponse(BaseModel):
 @app.get("/algorithms", response_model=AlgorithmsResponse)
 def get_operations():
     return {"items":get_algorithms()}
+
+from src.service_layer.execution import get_executions
+from pydantic import BaseModel, ConfigDict
+from typing import List
+from datetime import datetime
+
+class ExecutionPublicSchema(BaseModel):
+    # This configuration is required to map from objects/dataclasses
+    model_config = ConfigDict(from_attributes=True)
+    id: int 
+    algorithm_id: int
+    message: str
+    timestamp : datetime
+    
+class ExecutionsResponse(BaseModel):
+    items: List[ExecutionPublicSchema]
+
+@app.get("/executions", response_model=ExecutionsResponse)
+def get_operations():
+    return {"items":get_executions()}

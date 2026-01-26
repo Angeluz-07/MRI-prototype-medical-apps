@@ -12,7 +12,8 @@ class Algorithm:
 
 @dataclass
 class Execution:
-    id: int 
+    id: int
+    algorithm_id: int
     message: str
     timestamp: datetime
 

@@ -1,10 +1,11 @@
 //import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
-import './Home.css'
-import ImagesWorkspace from './ImagesWorkspace';
-import ResultsViewer from './ResultsViewer';
-import SelectOperation from './SelectOperation';
+import Executions from "./Executions";
+import "./Home.css";
+import ImagesWorkspace from "./ImagesWorkspace";
+import ResultsViewer from "./ResultsViewer";
+import SelectOperation from "./SelectOperation";
 
 function Home() {
   return (
@@ -43,7 +44,7 @@ function Home() {
                 aria-controls="nav-profile"
                 aria-selected="false"
               >
-                Operations
+                Algorithms
               </button>
               <button
                 className="nav-link"
@@ -55,7 +56,19 @@ function Home() {
                 aria-controls="nav-contact"
                 aria-selected="false"
               >
-                Results Viewer
+                Executions
+              </button>
+              <button
+                className="nav-link"
+                id="nav-contact-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-contact2"
+                type="button"
+                role="tab"
+                aria-controls="nav-contact"
+                aria-selected="false"
+              >
+                Results Viewer2
               </button>
             </div>
           </nav>
@@ -66,9 +79,7 @@ function Home() {
               role="tabpanel"
               aria-labelledby="nav-home-tab"
             >
-
-            <ImagesWorkspace></ImagesWorkspace>
-
+              <ImagesWorkspace></ImagesWorkspace>
             </div>
             <div
               className="tab-pane fade"
@@ -81,6 +92,15 @@ function Home() {
             <div
               className="tab-pane fade col-12"
               id="nav-contact"
+              role="tabpanel"
+              aria-labelledby="nav-contact-tab"
+            >
+              <Executions></Executions>
+            </div>
+
+            <div
+              className="tab-pane fade col-12"
+              id="nav-contact2"
               role="tabpanel"
               aria-labelledby="nav-contact-tab"
             >

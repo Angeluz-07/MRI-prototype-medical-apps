@@ -127,7 +127,7 @@ function SelectOperation() {
               required
             >
               <option value="" disabled>
-                Select Operation
+                Select Algorithm
               </option>
 
               {operations.map((item) => (
