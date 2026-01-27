@@ -1,6 +1,6 @@
 
 
-from src.service.filepath_manager import FilepathManager
+from src.domain.filepath_manager import FilepathManager
 
 import ants
 from antspynet.utilities import brain_extraction
