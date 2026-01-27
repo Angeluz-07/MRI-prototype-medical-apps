@@ -1,7 +1,5 @@
-from .interface import Repository, Item
-from typing import List
 from src.domain.models import Algorithm
-
+from src.repository.interfaces import Repository
 
 class InMemoryAlgorithmRepository(Repository):
     

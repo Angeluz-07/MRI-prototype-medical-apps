@@ -1,23 +1,6 @@
-from .interface import Repository, Item
-from typing import List
 from src.domain.models import Execution
-from abc import ABC, abstractmethod
+from src.repository.interfaces import Repository
 
-# Repository Interface
-class Repository(ABC):
-    @abstractmethod
-    def get_all(self, id: int) -> Execution | None:
-        pass
-    
-    @abstractmethod
-    def add(self, item: Execution):
-        pass
-
-    @abstractmethod
-    def get_by_id(self, id: int) -> Execution | None:
-        pass
-
-from datetime import datetime, timezone
 class InMemoryExecutionRepository(Repository):
     
     def __init__(self):

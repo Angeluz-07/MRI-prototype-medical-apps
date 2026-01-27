@@ -14,42 +14,40 @@ app.add_middleware(
     allow_methods=["*"],
 )
 
+from src.services.file import get_input_files, get_input_file_as_base64
+from src.services.file import get_output_files, get_output_file_as_base64
+from src.services.file import save_input_file
 
-from repository import FileRepository
 @app.get("/mri/images")
 def mri_images():
-
-    return {"images": FileRepository().get_all()}
+    return {"images": get_input_files()}
 
 @app.get("/mri/images/{id}")
 def mri_images(id:str):
-    return {"basestr": FileRepository().get_str_by_id(id)}
+    return {"basestr": get_input_file_as_base64(id)}
     
-from repository import FileRepositoryResults
 @app.get("/mri/results")
 def mri_images_results():
-    return {"images": FileRepositoryResults().get_all()}
+    return {"images": get_output_files()}
 
 @app.get("/mri/results/{id}")
 def mri_images_results(id:str):
-    return {"basestr": FileRepositoryResults().get_str_by_id(id)}
+    return {"basestr": get_output_file_as_base64(id)}
 
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import UploadFile, File
 from typing import Annotated
 
 @app.post("/mri/images")
 def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
-    filename = FileRepository().add_raw(fileMRI)
+    filename = save_input_file(fileMRI.filename, fileMRI.file)
     return {"filename":filename}
-
 
 from pydantic import BaseModel
 class AlgorithmRun(BaseModel):
     algorithm_id: str
     filename: str
-
     
-from src.service_layer.algorithm  import run_algorithm
+from src.services.algorithm  import run_algorithm
 from src.repository.execution import InMemoryExecutionRepository
 execution_repository = InMemoryExecutionRepository()
 @app.post("/algorithm/run")
@@ -57,7 +55,7 @@ def segment_brain(algorithm_run: AlgorithmRun):
     msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, execution_repository)
     return { "message": msg }
 
-from src.service_layer.algorithm import get_algorithms
+from src.services.algorithm import get_algorithms
 from pydantic import BaseModel, ConfigDict
 from typing import List
 
@@ -75,7 +73,7 @@ class AlgorithmsResponse(BaseModel):
 def get_operations():
     return {"items":get_algorithms()}
 
-from src.service_layer.execution import get_executions
+from src.services.execution import get_executions
 from pydantic import BaseModel, ConfigDict
 from typing import List
 from datetime import datetime

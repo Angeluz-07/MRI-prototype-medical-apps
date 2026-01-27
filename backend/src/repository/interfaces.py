@@ -1,11 +1,6 @@
-
-from dataclasses import dataclass
-from typing import List
-from pydantic import BaseModel
-
 from abc import ABC, abstractmethod
 
-class Item(BaseModel):
+class Item:
     pass
 
 # Repository Interface

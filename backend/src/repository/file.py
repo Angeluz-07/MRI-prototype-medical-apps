@@ -1,32 +1,17 @@
-from .interface import Repository, Item
 from typing import List
 from src.domain.models import File
-from abc import ABC, abstractmethod
-
-# Repository Interface
-class Repository(ABC):
-    @abstractmethod
-    def get_all(self, id: int) -> File | None:
-        pass
-    
-    @abstractmethod
-    def add(self, item: File):
-        pass
-
-    @abstractmethod
-    def get_by_id(self, id: int) -> File | None:
-        pass
-
-from pathlib import Path
+from src.repository.interfaces import Repository
 import shutil
-WORKSPACE_DEFAULT_FOLDER = Path(__file__).parent.parent.parent / "workspace" / "default"
-RESULTS_FOLDER = Path(__file__).parent / "out"
 
 #by now holds only input files
 class FileRepository(Repository):
-    
-    def __init__(self):
-        self.items = []
+    folder_path : str
+    files : List[File]
+
+    def __init__(self, folder_path):
+        self.folder_path = folder_path
+        files =  [File(file_path.name) for file_path in folder_path.iterdir() if file_path.is_file()]
+        self.items = files
 
     def get_all(self):
         return self.items
@@ -36,9 +21,18 @@ class FileRepository(Repository):
 
     def get_by_id(self, id):
         for x in self.items:
-            if x.id == id:
+            if x.name == id:
                 return x
         return None
-    
+
     def get_full_path(self, filename):
-        return str(WORKSPACE_DEFAULT_FOLDER / filename)
+        return str(self.folder_path / filename)
+ 
+    def add_raw(self, filename, file):
+        path = self.folder_path / f"{filename}"
+        with open(path, "wb") as buffer:
+            shutil.copyfileobj(file, buffer)
+
+        self.add(File(filename))
+
+        return filename

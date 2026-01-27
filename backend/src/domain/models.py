@@ -7,7 +7,7 @@ from datetime import timezone
 
 @dataclass
 class File:
-    path: str
+    name: str
 
 @dataclass
 class Algorithm:
