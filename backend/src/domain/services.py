@@ -1,6 +1,7 @@
 
 
 from src.service.filepath_manager import FilepathManager
+
 import ants
 from antspynet.utilities import brain_extraction
 
@@ -24,6 +25,8 @@ def _img_process_run(raw_img_path):
     masked.to_file(out_path)
     print("saved brain masked...")
 
-ALGORITHMS = {
-    "brain_extraction" : _img_process_run
-}
+def get_implementation(alg_name):
+    IMPLEMENTATIONS = {
+        "brain_extraction" : _img_process_run
+    }
+    return IMPLEMENTATIONS.get(alg_name)

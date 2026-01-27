@@ -1,23 +1,37 @@
 from src.repository.algorithm import InMemoryAlgorithmRepository
+from src.repository.execution import InMemoryExecutionRepository
 from src.repository.file import FileRepository
-from src.domain.services import ALGORITHMS
+from src.domain.services import get_implementation
+from src.domain.models import Execution
 
 def get_algorithms():
     return InMemoryAlgorithmRepository().get_all()
 
-def run_algorithm(filename, algorithm_name):
-    img_full_path = FileRepository().get_full_path(filename)
-    algorithm = ALGORITHMS.get(algorithm_name)
-    msg = None
+def run_algorithm(algorithm_id, filename, execution_repository):
+    algorithm_repo = InMemoryAlgorithmRepository()
+    file_repo = FileRepository()
+    execution_repo = execution_repository
+
+    img_full_path = file_repo.get_full_path(filename)
+    algorithm = algorithm_repo.get_by_id(algorithm_id)
+    
+    if algorithm is None:
+        raise Exception(f"unknown algorithm {algorithm_id}")
+    
+    fn = get_implementation(algorithm.name)
+    
     try:
-        if algorithm is not None:
-            algorithm(img_full_path)
-            msg = f"successfully executed {algorithm_name} on {filename}"
-        else:
-            msg = "Unknown algorithm: ", algorithm_name
-    except Exception as e:
-        msg = f"Error while executing {algorithm_name} on {filename} = {e}"
-        print(msg)
-        raise e
-    print(msg)
-    return msg
+            
+        exec = Execution(algorithm_id=algorithm.id)
+        exec.add_log("starting")
+
+        fn(img_full_path)
+        
+        exec.add_log("finished")
+    except Exception:
+        exec.add_log("error ocurred")
+        raise
+    finally:
+        execution_repo.add(exec)
+
+    return "success"

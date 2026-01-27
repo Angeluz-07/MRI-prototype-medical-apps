@@ -52,9 +52,9 @@ function SelectOperation() {
 
     const formData = new FormData();
     formData.append("filename", file); // Append binary data to FormData
-    formData.append("name", operation);
+    formData.append("algorithm_id", operation);
 
-    //console.log(Object.fromEntries(formData));
+    console.log(Object.fromEntries(formData));
 
     const API_ENDPOINT = "http://127.0.0.1:8080/algorithm/run";
     try {
@@ -131,7 +131,7 @@ function SelectOperation() {
               </option>
 
               {operations.map((item) => (
-                <option key={item.id} value={item.name} data-description={item.description}>
+                <option key={item.id} value={item.id} data-description={item.description}>
                   {item.name}
                 </option>
               ))}

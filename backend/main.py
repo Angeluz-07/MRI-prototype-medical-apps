@@ -70,14 +70,17 @@ def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
 
 
 from pydantic import BaseModel
-class Algorithm(BaseModel):
+class AlgorithmRun(BaseModel):
+    algorithm_id: str
     filename: str
-    name: str 
+
     
 from src.service_layer.algorithm  import run_algorithm
+from src.repository.execution import InMemoryExecutionRepository
+execution_repository = InMemoryExecutionRepository()
 @app.post("/algorithm/run")
-def segment_brain(algorithm:Algorithm):
-    msg = run_algorithm(algorithm.filename, algorithm.name)
+def segment_brain(algorithm_run: AlgorithmRun):
+    msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, execution_repository)
     return { "message": msg }
 
 from src.service_layer.algorithm import get_algorithms
@@ -87,7 +90,7 @@ from typing import List
 class AlgorithmPublicSchema(BaseModel):
     # This configuration is required to map from objects/dataclasses
     model_config = ConfigDict(from_attributes=True)
-    id: int 
+    id: str
     name: str
     description: str
     
@@ -103,17 +106,23 @@ from pydantic import BaseModel, ConfigDict
 from typing import List
 from datetime import datetime
 
+class ExecutionDetailPublicSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    timestamp: datetime
+    message: str
+    level: str 
+    id: str 
+
 class ExecutionPublicSchema(BaseModel):
     # This configuration is required to map from objects/dataclasses
     model_config = ConfigDict(from_attributes=True)
-    id: int 
-    algorithm_id: int
-    message: str
-    timestamp : datetime
+    id: str 
+    algorithm_id: str
+    details: List[ExecutionDetailPublicSchema]
     
 class ExecutionsResponse(BaseModel):
     items: List[ExecutionPublicSchema]
 
 @app.get("/executions", response_model=ExecutionsResponse)
 def get_operations():
-    return {"items":get_executions()}
+    return {"items":get_executions(execution_repository)}

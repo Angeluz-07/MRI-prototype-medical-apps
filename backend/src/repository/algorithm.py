@@ -1,29 +1,15 @@
 from .interface import Repository, Item
 from typing import List
 from src.domain.models import Algorithm
-from abc import ABC, abstractmethod
 
-# Repository Interface
-class Repository(ABC):
-    @abstractmethod
-    def get_all(self, id: int) -> Algorithm | None:
-        pass
-    
-    @abstractmethod
-    def add(self, item: Algorithm):
-        pass
-
-    @abstractmethod
-    def get_by_id(self, id: int) -> Algorithm | None:
-        pass
 
 class InMemoryAlgorithmRepository(Repository):
     
     def __init__(self):
         self.items = [
-            Algorithm(id=1,name="brain_extraction", description="Extracts the brain from an mri image."), 
-            Algorithm(id=2,name="My second alg",description="dummy 2"), 
-            Algorithm(id=3,name="My third alg", description="dummy 3")
+            Algorithm(name="brain_extraction", description="Extracts the brain from an mri image.", id="29a2ba2b-0db4-41bb-87b0-a5af98462a4e"), 
+            Algorithm(name="My second alg",description="dummy 2"), 
+            Algorithm(name="My third alg", description="dummy 3")
         ]
 
     def get_all(self):

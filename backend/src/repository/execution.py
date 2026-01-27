@@ -22,8 +22,8 @@ class InMemoryExecutionRepository(Repository):
     
     def __init__(self):
         self.items = [
-            Execution(id=1,algorithm_id=1, message="ERROR...", timestamp=datetime.now(timezone.utc)), 
-        ]
+            Execution(algorithm_id="sss"), 
+        ] 
 
     def get_all(self):
         return self.items
