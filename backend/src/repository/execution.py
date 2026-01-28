@@ -1,11 +1,13 @@
-from src.domain.models import Execution
+from src.domain.models import Execution, ExecutionDetail
 from src.repository.interfaces import Repository
 
 class InMemoryExecutionRepository(Repository):
     
     def __init__(self):
+        exec =  Execution(algorithm_id="29a2ba2b-0db4-41bb-87b0-a5af98462a4e")
+        exec.add_log("testing...")
         self.items = [
-            Execution(algorithm_id="sss"), 
+           exec
         ] 
 
     def get_all(self):

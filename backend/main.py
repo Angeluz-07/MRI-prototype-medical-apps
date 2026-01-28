@@ -73,28 +73,22 @@ class AlgorithmsResponse(BaseModel):
 def get_operations():
     return {"items":get_algorithms()}
 
-from src.services.execution import get_executions
+from src.services.execution import get_execution_details
 from pydantic import BaseModel, ConfigDict
 from typing import List
 from datetime import datetime
 
 class ExecutionDetailPublicSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
+    algorithm_name: str
     timestamp: datetime
     message: str
     level: str 
     id: str 
 
-class ExecutionPublicSchema(BaseModel):
-    # This configuration is required to map from objects/dataclasses
-    model_config = ConfigDict(from_attributes=True)
-    id: str 
-    algorithm_id: str
-    details: List[ExecutionDetailPublicSchema]
-    
 class ExecutionsResponse(BaseModel):
-    items: List[ExecutionPublicSchema]
+    items: List[ExecutionDetailPublicSchema]
 
-@app.get("/executions", response_model=ExecutionsResponse)
+@app.get("/execution-details", response_model=ExecutionsResponse)
 def get_operations():
-    return {"items":get_executions(execution_repository)}
+    return {"items":get_execution_details(execution_repository)}

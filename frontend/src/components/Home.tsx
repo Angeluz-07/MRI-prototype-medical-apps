@@ -68,7 +68,7 @@ function Home() {
                 aria-controls="nav-contact"
                 aria-selected="false"
               >
-                Results Viewer2
+                Results Viewer
               </button>
             </div>
           </nav>

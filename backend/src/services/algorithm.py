@@ -22,7 +22,6 @@ def run_algorithm(algorithm_id, filename, execution_repository):
     fn = get_implementation(algorithm.name)
     
     try:
-            
         exec = Execution(algorithm_id=algorithm.id)
         exec.add_log("starting")
 
