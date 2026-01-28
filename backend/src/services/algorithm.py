@@ -3,13 +3,14 @@ from src.repository.execution import InMemoryExecutionRepository
 from src.repository.file import FileRepository
 from src.domain.services import get_implementation
 from src.domain.models import Execution
+from src.domain.filepath_manager import WORKSPACE_DEFAULT_FOLDER
 
 def get_algorithms():
     return InMemoryAlgorithmRepository().get_all()
 
 def run_algorithm(algorithm_id, filename, execution_repository):
     algorithm_repo = InMemoryAlgorithmRepository()
-    file_repo = FileRepository()
+    file_repo = FileRepository(WORKSPACE_DEFAULT_FOLDER)
     execution_repo = execution_repository
 
     img_full_path = file_repo.get_full_path(filename)

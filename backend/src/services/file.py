@@ -3,7 +3,8 @@ from src.domain.filepath_manager import WORKSPACE_DEFAULT_FOLDER, FilepathManage
 
 def get_input_files():
     folder_path = WORKSPACE_DEFAULT_FOLDER
-    return FileRepository(folder_path).get_all()
+    result = [ file.name for file in FileRepository(folder_path).get_all() ]
+    return result
 
 def get_input_file_as_base64(file_id):
     folder_path = WORKSPACE_DEFAULT_FOLDER
@@ -20,8 +21,8 @@ def save_input_file(filename, file):
 
 def get_output_files():
     folder_path = RESULTS_FOLDER
-    print(folder_path)
-    return FileRepository(folder_path).get_all()
+    result = [ file.name for file in FileRepository(folder_path).get_all() ]
+    return result
 
 def get_output_file_as_base64(file_id):
     folder_path = RESULTS_FOLDER
