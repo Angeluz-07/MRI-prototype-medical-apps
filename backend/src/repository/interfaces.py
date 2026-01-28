@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 class Item:
     pass
@@ -6,7 +7,7 @@ class Item:
 # Repository Interface
 class Repository(ABC):
     @abstractmethod
-    def get_all(self, id: int) -> Item | None:
+    def get_all(self, id: str) -> List[Item]:
         pass
     
     @abstractmethod
@@ -14,5 +15,5 @@ class Repository(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self, id: int) -> Item | None:
+    def get_by_id(self, id: str) -> Item | None:
         pass
