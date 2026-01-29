@@ -48,8 +48,11 @@ class AlgorithmRun(BaseModel):
     filename: str
     
 from src.services.algorithm  import run_algorithm
-from src.repository.execution import InMemoryExecutionRepository
-execution_repository = InMemoryExecutionRepository()
+from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
+from src.domain.filepath_manager import BASE_DIR
+#execution_repository = InMemoryExecutionRepository()
+execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executions.json"))
+
 @app.post("/algorithm/run")
 def segment_brain(algorithm_run: AlgorithmRun):
     msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, execution_repository)
