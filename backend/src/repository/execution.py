@@ -23,7 +23,6 @@ class InMemoryExecutionRepository(Repository):
         return None
     
 import json
-import os
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
