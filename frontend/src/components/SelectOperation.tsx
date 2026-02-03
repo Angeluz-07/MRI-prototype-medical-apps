@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import NiftiViewerContainer from "./NiftiViewerContainer";
-
+type SelectOperationProps = {
+  onFinishAlgorithm: () => void;
+};
 // todo: change reference from "operation" to "algorithm"
-function SelectOperation() {
+function SelectOperation({ onFinishAlgorithm }: SelectOperationProps) {
   const [items, setItems] = useState<Array<string>>([]);
   const [file, setFile] = useState<string>("");
 
@@ -73,6 +75,8 @@ function SelectOperation() {
     } catch (error) {
       console.error("Error saving data:", error);
       setfeedbackMsg("error");
+    } finally {
+      onFinishAlgorithm();
     }
   };
 
@@ -82,7 +86,7 @@ function SelectOperation() {
 
   const handleChangeOperation = (event) => {
     const selectedOption = event.target.selectedOptions[0];
-    const description = selectedOption.dataset.description; 
+    const description = selectedOption.dataset.description;
 
     setOperation(event.target.value);
     setOperationDescription(`Description : ${description}`);
@@ -131,7 +135,11 @@ function SelectOperation() {
               </option>
 
               {operations.map((item) => (
-                <option key={item.id} value={item.id} data-description={item.description}>
+                <option
+                  key={item.id}
+                  value={item.id}
+                  data-description={item.description}
+                >
                   {item.name}
                 </option>
               ))}

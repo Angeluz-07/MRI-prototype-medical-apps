@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-function Executions() {
+type ExecutionsProps = {
+  refreshTrigger: number;
+};
+function Executions({ refreshTrigger }: ExecutionsPropsProps) {
   const [items, setItems] = useState<Array<string>>([]);
   const [file, setFile] = useState<string>("");
 
@@ -20,11 +22,11 @@ function Executions() {
     };
 
     fetchItems();
-  }, []);
+  }, [refreshTrigger]);
 
   return (
     <>
-      <div >
+      <div>
         <table class="table">
           <thead>
             <tr>

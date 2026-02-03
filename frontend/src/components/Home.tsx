@@ -1,4 +1,4 @@
-//import { useState } from 'react'
+import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import Executions from "./Executions";
@@ -8,6 +8,10 @@ import ResultsViewer from "./ResultsViewer";
 import SelectOperation from "./SelectOperation";
 
 function Home() {
+  const [refreshKeyExecutions, setRefreshKeyExecutions] = useState(0);
+  const handleFinishAlgorithm = () => {
+    setRefreshKeyExecutions(refreshKeyExecutions+1);
+  }
   return (
     <>
       <div className="container">
@@ -87,7 +91,7 @@ function Home() {
               role="tabpanel"
               aria-labelledby="nav-profile-tab"
             >
-              <SelectOperation></SelectOperation>
+              <SelectOperation onFinishAlgorithm={handleFinishAlgorithm}></SelectOperation>
             </div>
             <div
               className="tab-pane fade col-12"
@@ -95,7 +99,7 @@ function Home() {
               role="tabpanel"
               aria-labelledby="nav-contact-tab"
             >
-              <Executions></Executions>
+              <Executions refreshTrigger={refreshKeyExecutions}></Executions>
             </div>
 
             <div
