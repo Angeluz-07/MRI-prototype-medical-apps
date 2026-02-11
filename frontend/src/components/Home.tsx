@@ -6,6 +6,7 @@ import "./Home.css";
 import ImagesWorkspace from "./ImagesWorkspace";
 import ResultsViewer from "./ResultsViewer";
 import SelectOperation from "./SelectOperation";
+import Login from './Login';
 
 function Home() {
   const [refreshKeyExecutions, setRefreshKeyExecutions] = useState(0);
@@ -28,6 +29,18 @@ function Home() {
             <div className="nav nav-tabs my-2" id="nav-tab" role="tablist">
               <button
                 className="nav-link active"
+                id="nav-home-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-home-login"
+                type="button"
+                role="tab"
+                aria-controls="nav-home"
+                aria-selected="true"
+              >
+                Login
+              </button>
+              <button
+                className="nav-link"
                 id="nav-home-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#nav-home"
@@ -79,6 +92,15 @@ function Home() {
           <div className="tab-content" id="nav-tabContent">
             <div
               className="tab-pane fade show active"
+              id="nav-home-login"
+              role="tabpanel"
+              aria-labelledby="nav-home-tab"
+            >
+              <Login></Login>
+            </div>
+
+            <div
+              className="tab-pane fade"
               id="nav-home"
               role="tabpanel"
               aria-labelledby="nav-home-tab"
