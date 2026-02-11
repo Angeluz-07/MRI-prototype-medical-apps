@@ -33,3 +33,10 @@ class Execution:
         detail = ExecutionDetail(datetime.now(timezone.utc), message, level)
         self.details.append(detail)
 
+
+@dataclass
+class User:
+    username: str
+    email: str
+    password: str
+    id: str = field(default_factory=lambda: str(uuid4()))

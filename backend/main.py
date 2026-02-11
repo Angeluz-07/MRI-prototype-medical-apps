@@ -95,3 +95,20 @@ class ExecutionsResponse(BaseModel):
 @app.get("/execution-details", response_model=ExecutionsResponse)
 def get_operations():
     return {"items":get_execution_details(execution_repository)}
+
+from src.services.user import get_users_
+from src.repository.user import InMemoryUserRepository
+users_repository = InMemoryUserRepository()
+
+class UserDetailPublicSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: str
+    username: str
+    email: str
+
+class UsersResponse(BaseModel):
+    items: List[UserDetailPublicSchema]
+
+@app.get("/users", response_model=UsersResponse)
+def get_users():
+    return {"items":get_users_(users_repository)}
