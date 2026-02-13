@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios"; // Importamos Axios
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -18,32 +19,32 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    // FastAPI espera los datos en este formato por defecto para OAuth2
-    const body = new URLSearchParams();
-    body.append("username", formData.username);
-    body.append("password", formData.password);
-
     try {
-      const response = await fetch("http://localhost:8080/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: body,
+      // 1. Django + SimpleJWT espera un JSON, no URLSearchParams
+      // 2. Axios convierte automáticamente el objeto a JSON
+      const response = await axios.post("http://localhost:8000/api/login/", {
+        username: formData.username,
+        password: formData.password,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        // Guardamos el token en localStorage
-        localStorage.setItem("token", data.access_token);
+      // 3. SimpleJWT responde con { access: "...", refresh: "..." }
+      if (response.data.access) {
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
+        
         alert("¡Inicio de sesión exitoso!");
-        window.location.href = "/dashboard"; // Redirigir
-      } else {
-        const errorData = await response.json();
-        setError(errorData.detail || "Error al iniciar sesión");
+        window.location.href = "/dashboard"; 
       }
     } catch (err) {
-      setError("Error de conexión con el servidor");
+      // 4. Axios maneja los errores en el bloque catch de forma más estructurada
+      if (err.response) {
+        // El servidor respondió con un error (400, 401, etc.)
+        setError(err.response.data.detail || "Credenciales incorrectas");
+      } else {
+        // Error de red o el servidor está apagado
+        console.log(err);
+        setError("No se pudo conectar con el servidor (CORS o Red)");
+      }
     }
   };
 
@@ -57,6 +58,7 @@ const Login = () => {
           <input
             type="text"
             name="username"
+            placeholder="username"
             value={formData.username}
             onChange={handleChange}
             className="form-control"
@@ -67,16 +69,17 @@ const Login = () => {
           <input
             type="password"
             name="password"
+            placeholder="password"
             value={formData.password}
             onChange={handleChange}
             className="form-control"
             required
           />
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <div className="alert alert-danger my-2">{error}</div>}
         <div className="row my-3 mx-auto">
           <button type="submit" className="btn btn-success">
-            Entrar
+            Enter
           </button>
         </div>
       </form>
