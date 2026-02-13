@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import Executions from "./Executions";
@@ -6,135 +6,132 @@ import "./Home.css";
 import ImagesWorkspace from "./ImagesWorkspace";
 import ResultsViewer from "./ResultsViewer";
 import SelectOperation from "./SelectOperation";
-import Login from './Login';
+import Login from "./Login";
+import { useAuth } from "./AuthContext";
 
 function Home() {
+  const { isAuthenticated, logout } = useAuth();
   const [refreshKeyExecutions, setRefreshKeyExecutions] = useState(0);
   const handleFinishAlgorithm = () => {
-    setRefreshKeyExecutions(refreshKeyExecutions+1);
-  }
+    setRefreshKeyExecutions(refreshKeyExecutions + 1);
+  };
+
   return (
     <>
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="header stacked">
-              <h1>My MRI Medical App</h1>
-              <h6>App to load MRI images and display</h6>
+      {!isAuthenticated ? (
+        <Login></Login>
+      ) : (
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="header stacked">
+                <h1>My MRI Medical App</h1>
+                <h6>App to load MRI images and display</h6>
+              </div>
+            </div>
+          </div>
+
+          <div id="main_content" className="row">
+            <nav>
+              <div className="nav nav-tabs my-2" id="nav-tab" role="tablist">
+                <button
+                  className="nav-link active"
+                  id="nav-home-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-home"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-home"
+                  aria-selected="true"
+                >
+                  Images
+                </button>
+                <button
+                  className="nav-link"
+                  id="nav-profile-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-profile"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-profile"
+                  aria-selected="false"
+                >
+                  Algorithms
+                </button>
+                <button
+                  className="nav-link"
+                  id="nav-contact-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-contact"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-contact"
+                  aria-selected="false"
+                >
+                  Executions
+                </button>
+                <button
+                  className="nav-link"
+                  id="nav-contact-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-contact2"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-contact"
+                  aria-selected="false"
+                >
+                  Results Viewer
+                </button>
+
+                <p
+                  className="ms-auto mb-0 p-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={logout}
+                >
+                  Logout
+                </p>
+              </div>
+            </nav>
+            <div className="tab-content" id="nav-tabContent">
+              <div
+                className="tab-pane fade show active"
+                id="nav-home"
+                role="tabpanel"
+                aria-labelledby="nav-home-tab"
+              >
+                <ImagesWorkspace></ImagesWorkspace>
+              </div>
+              <div
+                className="tab-pane fade"
+                id="nav-profile"
+                role="tabpanel"
+                aria-labelledby="nav-profile-tab"
+              >
+                <SelectOperation
+                  onFinishAlgorithm={handleFinishAlgorithm}
+                ></SelectOperation>
+              </div>
+              <div
+                className="tab-pane fade col-12"
+                id="nav-contact"
+                role="tabpanel"
+                aria-labelledby="nav-contact-tab"
+              >
+                <Executions refreshTrigger={refreshKeyExecutions}></Executions>
+              </div>
+
+              <div
+                className="tab-pane fade col-12"
+                id="nav-contact2"
+                role="tabpanel"
+                aria-labelledby="nav-contact-tab"
+              >
+                <ResultsViewer></ResultsViewer>
+              </div>
             </div>
           </div>
         </div>
-        <div id="main_content" className="row">
-          <nav>
-            <div className="nav nav-tabs my-2" id="nav-tab" role="tablist">
-              <button
-                className="nav-link active"
-                id="nav-home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-home-login"
-                type="button"
-                role="tab"
-                aria-controls="nav-home"
-                aria-selected="true"
-              >
-                Login
-              </button>
-              <button
-                className="nav-link"
-                id="nav-home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-home"
-                type="button"
-                role="tab"
-                aria-controls="nav-home"
-                aria-selected="true"
-              >
-                Images
-              </button>
-              <button
-                className="nav-link"
-                id="nav-profile-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-profile"
-                type="button"
-                role="tab"
-                aria-controls="nav-profile"
-                aria-selected="false"
-              >
-                Algorithms
-              </button>
-              <button
-                className="nav-link"
-                id="nav-contact-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-contact"
-                type="button"
-                role="tab"
-                aria-controls="nav-contact"
-                aria-selected="false"
-              >
-                Executions
-              </button>
-              <button
-                className="nav-link"
-                id="nav-contact-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-contact2"
-                type="button"
-                role="tab"
-                aria-controls="nav-contact"
-                aria-selected="false"
-              >
-                Results Viewer
-              </button>
-            </div>
-          </nav>
-          <div className="tab-content" id="nav-tabContent">
-            <div
-              className="tab-pane fade show active"
-              id="nav-home-login"
-              role="tabpanel"
-              aria-labelledby="nav-home-tab"
-            >
-              <Login></Login>
-            </div>
-
-            <div
-              className="tab-pane fade"
-              id="nav-home"
-              role="tabpanel"
-              aria-labelledby="nav-home-tab"
-            >
-              <ImagesWorkspace></ImagesWorkspace>
-            </div>
-            <div
-              className="tab-pane fade"
-              id="nav-profile"
-              role="tabpanel"
-              aria-labelledby="nav-profile-tab"
-            >
-              <SelectOperation onFinishAlgorithm={handleFinishAlgorithm}></SelectOperation>
-            </div>
-            <div
-              className="tab-pane fade col-12"
-              id="nav-contact"
-              role="tabpanel"
-              aria-labelledby="nav-contact-tab"
-            >
-              <Executions refreshTrigger={refreshKeyExecutions}></Executions>
-            </div>
-
-            <div
-              className="tab-pane fade col-12"
-              id="nav-contact2"
-              role="tabpanel"
-              aria-labelledby="nav-contact-tab"
-            >
-              <ResultsViewer></ResultsViewer>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </>
   );
 }

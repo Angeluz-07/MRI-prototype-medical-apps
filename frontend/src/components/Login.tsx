@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios"; // Importamos Axios
+import { useAuth } from "./AuthContext";
 
 const Login = () => {
+  const { login } = useAuth(); // Usamos la función del contexto
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -29,11 +31,9 @@ const Login = () => {
 
       // 3. SimpleJWT responde con { access: "...", refresh: "..." }
       if (response.data.access) {
-        localStorage.setItem("access_token", response.data.access);
-        localStorage.setItem("refresh_token", response.data.refresh);
+        login(response.data.access, response.data.refresh);
         
         alert("¡Inicio de sesión exitoso!");
-        window.location.href = "/dashboard"; 
       }
     } catch (err) {
       // 4. Axios maneja los errores en el bloque catch de forma más estructurada
