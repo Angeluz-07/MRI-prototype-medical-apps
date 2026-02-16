@@ -35,12 +35,20 @@ function SelectOperation({ onFinishAlgorithm }: SelectOperationProps) {
 
     const fetchOperations = async () => {
       // A placeholder URL - **Replace this with your actual API endpoint**
-      const API_URL = "http://127.0.0.1:8080/algorithms";
+      const API_URL = "http://127.0.0.1:8000/api/algorithms";
+
+      // 1. Get the token from storage
+      const token = localStorage.getItem("access_token");
 
       try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(API_URL, {
+          // 2. Add the headers object
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         // Assuming the response data is an array of objects
-        setOperations(response.data.items);
+        setOperations(response.data);
       } catch (err) {
         console.error("Error fetching data:", err);
       }
