@@ -146,3 +146,6 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+# settings.py
+AUTH_USER_MODEL = 'mri_analisis.User'
