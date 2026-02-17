@@ -10,7 +10,7 @@ import Login from "./Login";
 import { useAuth } from "./AuthContext";
 
 function Home() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const [refreshKeyExecutions, setRefreshKeyExecutions] = useState(0);
   const handleFinishAlgorithm = () => {
     setRefreshKeyExecutions(refreshKeyExecutions + 1);
@@ -18,9 +18,7 @@ function Home() {
 
   return (
     <>
-      {!isAuthenticated ? (
-        <Login></Login>
-      ) : (
+      {isAuthenticated && user ? (
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
@@ -83,12 +81,15 @@ function Home() {
                   Results Viewer
                 </button>
 
+                <p className="ms-auto mb-0 p-2">
+                  User <b>{user.username}</b>
+                </p>
                 <p
-                  className="ms-auto mb-0 p-2"
+                  className="mb-0 p-2"
                   style={{ cursor: "pointer" }}
                   onClick={logout}
                 >
-                  Logout
+                  | Logout
                 </p>
               </div>
             </nav>
@@ -131,6 +132,8 @@ function Home() {
             </div>
           </div>
         </div>
+      ) : (
+        <Login></Login>
       )}
     </>
   );
