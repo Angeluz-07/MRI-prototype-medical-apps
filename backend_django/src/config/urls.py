@@ -1,5 +1,5 @@
 """
-URL configuration for medical_app project.
+URL configuration for project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -30,6 +30,6 @@ urlpatterns = [
     # Endpoint para renovar el Access Token usando el Refresh Token
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('api/', include('mri_analisis.urls'))
+    path('api/', include('apps.mri_analisis.urls'))
 
 ]
