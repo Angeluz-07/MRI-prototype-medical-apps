@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # local
-    'apps.mri_analisis'
+    'apps.mri_analisis',
+    'apps.authentication'
 ]
 
 MIDDLEWARE = [
@@ -148,4 +149,4 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # settings.py
-AUTH_USER_MODEL = 'mri_analisis.User'
+AUTH_USER_MODEL = 'authentication.User'
