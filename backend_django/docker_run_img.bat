@@ -1,1 +1,0 @@
-docker run -v %cd%:/usr/src/app -p 8080:80 -it mri-medical-app-backend-django
