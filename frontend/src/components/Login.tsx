@@ -24,14 +24,14 @@ const Login = () => {
     try {
       // 1. Django + SimpleJWT espera un JSON, no URLSearchParams
       // 2. Axios convierte automáticamente el objeto a JSON
-      const response = await axios.post("http://localhost:8000/api/login/", {
-        username: formData.username,
+      const response = await axios.post("http://localhost:8080/login/", {
+        email: formData.username,
         password: formData.password,
       });
 
       // 3. SimpleJWT responde con { access: "...", refresh: "..." }
-      if (response.data.access) {
-        login(response.data.access, response.data.refresh);
+      if (response.data.access_token) {
+        login(response.data.access_token);
         
         alert("¡Inicio de sesión exitoso!");
       }
@@ -39,7 +39,7 @@ const Login = () => {
       // 4. Axios maneja los errores en el bloque catch de forma más estructurada
       if (err.response) {
         // El servidor respondió con un error (400, 401, etc.)
-        setError(err.response.data.detail || "Credenciales incorrectas");
+        setError(err.response.detail || "Credenciales incorrectas");
       } else {
         // Error de red o el servidor está apagado
         console.log(err);

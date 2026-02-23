@@ -16,7 +16,7 @@ interface User {
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null; // New user state
-  login: (access: string, refresh: string) => void;
+  login: (access: string) => void;
   logout: () => void;
 }
 
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to fetch user data using the token
   const fetchUserData = async () => {
     try {
-      const API_URL = "http://127.0.0.1:8000/api/me";
+      const API_URL = "http://127.0.0.1:8080/me";
 
       // 1. Get the token from storage
       const token = localStorage.getItem("access_token");
@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isAuthenticated]);
 
-  const login = (access: string, refresh: string) => {
+  const login = (access: string) => {
     localStorage.setItem("access_token", access);
-    localStorage.setItem("refresh_token", refresh);
+    //localStorage.setItem("refresh_token", refresh);
     setIsAuthenticated(true);
   };
 
