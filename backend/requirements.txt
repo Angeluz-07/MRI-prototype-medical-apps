@@ -1,4 +1,6 @@
 fastapi[standard]
+authx==1.5.1 # for auth
+pwdlib[argon2] # for hashing
 
 # for mri brain extraction
 opencv-python-headless
