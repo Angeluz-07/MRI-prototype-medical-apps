@@ -5,13 +5,15 @@ app = FastAPI()
 
 # Handle CORS in local dev
 origins= [
-    "http://localhost:5173"
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,    
-    allow_methods=["*"],
+    allow_credentials=True,  # Allows cookies and authorization headers
+    allow_methods=["*"],     # Allows all methods (GET, POST, PUT, DELETE, OPTIONS, etc.)
+    allow_headers=["*"],     # Allows all headers, including Authorization and Content-Type
 )
 
 from src.services.file import get_input_files, get_input_file_as_base64
@@ -112,3 +114,42 @@ class UsersResponse(BaseModel):
 @app.get("/users", response_model=UsersResponse)
 def get_users():
     return {"items":get_users_(users_repository)}
+
+from src.services.auth import repo, User, password_helper, auth
+from pydantic import EmailStr
+from fastapi import FastAPI, Depends, HTTPException, status
+
+# 3. Schemas para Endpoints
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+# 4. Endpoints de Autenticación
+@app.post("/register")
+def register(user_data: User):
+    if repo.get_by_email(user_data.email):
+        raise HTTPException(status_code=400, detail="El email ya existe")
+    return repo.add(user_data)
+
+
+@app.post("/login")
+def login(credentials: LoginRequest):
+    user = repo.get_by_email(credentials.email)
+    
+    if not user or not password_helper.verify(credentials.password, user.password):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales inválidas")
+    
+    # AuthX genera el token usando el ID del usuario
+    token = auth.create_access_token(uid=user.id)
+    return {"access_token": token, "token_type": "bearer"}
+
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+# Esquema para Swagger
+security = HTTPBearer()
+
+# 5. Ruta Protegida
+@app.get("/me")
+def get_current_user(token: HTTPAuthorizationCredentials = Depends(security),payload = Depends(auth.access_token_required)):
+    user_id = payload.sub 
+    user = repo.get_by_id(user_id)
+    return {"username": user.username, "email": user.email}
