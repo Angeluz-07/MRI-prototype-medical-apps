@@ -98,7 +98,7 @@ class ExecutionsResponse(BaseModel):
 def get_operations():
     return {"items":get_execution_details(execution_repository)}
 
-from src.services.user import get_users_
+from src.services.auth import get_users_
 from src.repository.user import InMemoryUserRepository
 users_repository = InMemoryUserRepository()
 
@@ -116,7 +116,7 @@ def get_users():
     return {"items":get_users_(users_repository)}
 
 from src.services.auth import auth_backend
-from src.services.user import get_user_by_email, add_user, is_user_authorized
+from src.services.auth import get_user_by_email, add_user, is_user_authorized
 from pydantic import EmailStr
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
