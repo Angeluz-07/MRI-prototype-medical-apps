@@ -115,7 +115,7 @@ class UsersResponse(BaseModel):
 def get_users():
     return {"items":get_users_(users_repository)}
 
-from src.services.auth import repo, User, password_helper, auth
+from src.services.auth import repo, User, password_helper, auth_backend
 from pydantic import EmailStr
 from fastapi import FastAPI, Depends, HTTPException, status
 
@@ -140,16 +140,17 @@ def login(credentials: LoginRequest):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales inválidas")
     
     # AuthX genera el token usando el ID del usuario
-    token = auth.create_access_token(uid=user.id)
+    token = auth_backend.create_access_token(uid=user.id)
     return {"access_token": token, "token_type": "bearer"}
 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+
 # Esquema para Swagger
 security = HTTPBearer()
 
 # 5. Ruta Protegida
 @app.get("/me")
-def get_current_user(token: HTTPAuthorizationCredentials = Depends(security),payload = Depends(auth.access_token_required)):
+def get_current_user(token: HTTPAuthorizationCredentials = Depends(security),payload = Depends(auth_backend.access_token_required)):
     user_id = payload.sub 
     user = repo.get_by_id(user_id)
     return {"username": user.username, "email": user.email}

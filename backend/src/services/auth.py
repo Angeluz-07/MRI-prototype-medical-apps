@@ -6,12 +6,14 @@ import uuid
 
 # 1. Configuración de Seguridad
 password_helper = PasswordHash.recommended()
+
 config = AuthXConfig(
     JWT_SECRET_KEY="SUPER_SECRET", # Usa una clave real en prod
     JWT_ACCESS_COOKIE_NAME="access_token",
     JWT_TOKEN_LOCATION=["headers"]
 )
-auth = AuthX(config=config)
+
+auth_backend = AuthX(config=config)
 
 
 # 2. Modelos y Repositorio
