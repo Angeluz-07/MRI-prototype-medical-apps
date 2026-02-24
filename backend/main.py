@@ -48,6 +48,7 @@ from pydantic import BaseModel
 class AlgorithmRun(BaseModel):
     algorithm_id: str
     filename: str
+    user_id: str
     
 from src.services.algorithm  import run_algorithm
 from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
@@ -57,7 +58,7 @@ execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executio
 
 @app.post("/algorithm/run")
 def segment_brain(algorithm_run: AlgorithmRun):
-    msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, execution_repository)
+    msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, algorithm_run.user_id, execution_repository)
     return { "message": msg }
 
 from src.services.algorithm import get_algorithms
@@ -86,6 +87,7 @@ from datetime import datetime
 class ExecutionDetailPublicSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     algorithm_name: str
+    user_name: str
     timestamp: datetime
     message: str
     level: str 
@@ -160,4 +162,4 @@ def login(login_schema: LoginRequest):
 def get_current_user(token: HTTPAuthorizationCredentials = Depends(security),payload = Depends(auth_backend.access_token_required)):
     user_id = payload.sub 
     user = users_repository.get_by_id(user_id)
-    return {"username": user.username, "email": user.email}
+    return {"username": user.username, "email": user.email, "id": user.id}

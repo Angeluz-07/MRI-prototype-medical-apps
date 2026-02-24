@@ -26,6 +26,7 @@ class ExecutionDetail:
 @dataclass
 class Execution:
     algorithm_id: str
+    user_id: str
     id: str = field(default_factory=lambda: str(uuid4()))
     details:List[ExecutionDetail] = field(default_factory=list)
 

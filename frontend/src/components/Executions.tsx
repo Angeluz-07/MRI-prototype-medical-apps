@@ -30,7 +30,8 @@ function Executions({ refreshTrigger }: ExecutionsPropsProps) {
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">#</th>              
+              <th scope="col">User name</th>
               <th scope="col">Algorithm Name</th>
               <th scope="col">Message</th>
               <th scope="col">Level</th>
@@ -40,7 +41,8 @@ function Executions({ refreshTrigger }: ExecutionsPropsProps) {
           <tbody>
             {items.map((item, index) => (
               <tr scope="row">
-                <th scope="row">{index}</th>
+                <th scope="row">{index}</th>                
+                <td>{item.user_name}</td>
                 <td>{item.algorithm_name}</td>
                 <td>{item.message}</td>
                 <td>{item.level}</td>

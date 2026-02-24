@@ -79,6 +79,7 @@ class JsonExecutionRepository(Repository):
         ]
         return Execution(
             algorithm_id=data['algorithm_id'],
+            user_id=data['user_id'],
             id=data['id'],
             details=details
         )

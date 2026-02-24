@@ -10,6 +10,7 @@ import axios from "axios"; // Importamos Axios
 interface User {
   username: string;
   email: string;
+  id: string;
   // add other fields like avatar, bio, etc.
 }
 

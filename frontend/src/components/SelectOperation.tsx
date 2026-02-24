@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import NiftiViewerContainer from "./NiftiViewerContainer";
+import { useAuth } from "./AuthContext";
 type SelectOperationProps = {
   onFinishAlgorithm: () => void;
 };
@@ -11,6 +12,8 @@ function SelectOperation({ onFinishAlgorithm }: SelectOperationProps) {
 
   const [operations, setOperations] = useState<Array<string>>([]);
   const [operation, setOperation] = useState<string>("");
+  const { user } = useAuth();
+  
 
   const [feedbackMsg, setfeedbackMsg] = useState<string>(
     "waiting for selection",
@@ -64,6 +67,7 @@ function SelectOperation({ onFinishAlgorithm }: SelectOperationProps) {
     const formData = new FormData();
     formData.append("filename", file); // Append binary data to FormData
     formData.append("algorithm_id", operation);
+    formData.append("user_id", user.id);
 
     console.log(Object.fromEntries(formData));
 
