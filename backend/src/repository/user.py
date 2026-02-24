@@ -16,8 +16,9 @@ class InMemoryUserRepository(Repository):
     def add(self, item: User):
         self.items.append(item)
 
-    def get_by_id(self, id):
-        for x in self.items:
-            if x.id == id:
-                return x
-        return None
+    def get_by_id(self, id: str):
+        return next((u for u in self.items if u.id == id), None)
+
+    def get_by_email(self, email: str):
+        return next((u for u in self.items if u.email == email), None)
+    

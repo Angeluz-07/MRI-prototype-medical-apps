@@ -115,42 +115,49 @@ class UsersResponse(BaseModel):
 def get_users():
     return {"items":get_users_(users_repository)}
 
-from src.services.auth import repo, User, password_helper, auth_backend
+from src.services.auth import auth_backend
+from src.services.user import get_user_by_email, add_user, is_user_authorized
 from pydantic import EmailStr
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+
+# Esquema para Swagger
+security = HTTPBearer()
 
 # 3. Schemas para Endpoints
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+# 2. Modelos y Repositorio
+class UserRegisterSchema(BaseModel):
+    username: str
+    email: EmailStr
+    password: str # En memoria será el hash
+
 # 4. Endpoints de Autenticación
 @app.post("/register")
-def register(user_data: User):
-    if repo.get_by_email(user_data.email):
+def register(user: UserRegisterSchema):
+    if get_user_by_email(users_repository, user.email):
         raise HTTPException(status_code=400, detail="El email ya existe")
-    return repo.add(user_data)
-
+    add_user(users_repository)
+    return {"message": "ok"}
 
 @app.post("/login")
-def login(credentials: LoginRequest):
-    user = repo.get_by_email(credentials.email)
-    
-    if not user or not password_helper.verify(credentials.password, user.password):
+def login(login_schema: LoginRequest):
+    authorized = is_user_authorized(users_repository, login_schema)
+
+    if not authorized:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales inválidas")
     
+    user = get_user_by_email(users_repository, login_schema.email)
     # AuthX genera el token usando el ID del usuario
     token = auth_backend.create_access_token(uid=user.id)
     return {"access_token": token, "token_type": "bearer"}
-
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-
-# Esquema para Swagger
-security = HTTPBearer()
 
 # 5. Ruta Protegida
 @app.get("/me")
 def get_current_user(token: HTTPAuthorizationCredentials = Depends(security),payload = Depends(auth_backend.access_token_required)):
     user_id = payload.sub 
-    user = repo.get_by_id(user_id)
+    user = users_repository.get_by_id(user_id)
     return {"username": user.username, "email": user.email}
