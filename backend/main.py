@@ -67,23 +67,23 @@ execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executio
 #     msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, algorithm_run.user_id, execution_repository)
 #     return { "message": msg }
 
-from src.services.algorithm import get_algorithms
-from pydantic import BaseModel, ConfigDict
-from typing import List
+# from src.services.algorithm import get_algorithms
+# from pydantic import BaseModel, ConfigDict
+# from typing import List
 
-class AlgorithmPublicSchema(BaseModel):
-    # This configuration is required to map from objects/dataclasses
-    model_config = ConfigDict(from_attributes=True)
-    id: str
-    name: str
-    description: str
+# class AlgorithmPublicSchema(BaseModel):
+#     # This configuration is required to map from objects/dataclasses
+#     model_config = ConfigDict(from_attributes=True)
+#     id: str
+#     name: str
+#     description: str
     
-class AlgorithmsResponse(BaseModel):
-    items: List[AlgorithmPublicSchema]
+# class AlgorithmsResponse(BaseModel):
+#     items: List[AlgorithmPublicSchema]
 
-@app.get("/algorithms", response_model=AlgorithmsResponse)
-def get_operations():
-    return {"items":get_algorithms()}
+# @app.get("/algorithms", response_model=AlgorithmsResponse)
+# def get_operations():
+#     return {"items":get_algorithms()}
 
 from src.services.execution import get_execution_details
 from pydantic import BaseModel, ConfigDict

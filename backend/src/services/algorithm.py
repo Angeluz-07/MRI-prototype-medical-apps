@@ -5,8 +5,6 @@ from src.domain.services import get_implementation
 from src.domain.models import Execution
 from src.domain.filepath_manager import WORKSPACE_DEFAULT_FOLDER
 
-def get_algorithms():
-    return InMemoryAlgorithmRepository().get_all()
 
 class AlgorithmService:
     def __init__(self, execution_repository):
@@ -39,3 +37,6 @@ class AlgorithmService:
             execution_repo.add(exec)
 
         return "success"
+
+    def get_algorithms(self):
+        return InMemoryAlgorithmRepository().get_all()
