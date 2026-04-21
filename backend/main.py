@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.entrypoints.api import router
+from src.entrypoints.mri_router import router as mri_router
 
 app = FastAPI()
 
@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],     # Allows all headers, including Authorization and Content-Type
 )
 
-app.include_router(router)
+app.include_router(mri_router)
 
 # from src.services.file import get_input_files, get_input_file_as_base64
 # from src.services.file import get_output_files, get_output_file_as_base64
