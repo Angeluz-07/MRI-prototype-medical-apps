@@ -71,7 +71,7 @@ function SelectOperation({ onFinishAlgorithm }: SelectOperationProps) {
 
     console.log(Object.fromEntries(formData));
 
-    const API_ENDPOINT = "http://127.0.0.1:8080/algorithm/run";
+    const API_ENDPOINT = "http://127.0.0.1:8080/algorithms/run";
     try {
       setfeedbackMsg("processing");
       const response = await axios.post(API_ENDPOINT, formData, {

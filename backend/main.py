@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.entrypoints.mri_router import router as mri_router
+from src.entrypoints.algorithm_router import router as algorithm_router
 
 app = FastAPI()
 
@@ -18,6 +19,8 @@ app.add_middleware(
 )
 
 app.include_router(mri_router)
+app.include_router(algorithm_router)
+
 
 # from src.services.file import get_input_files, get_input_file_as_base64
 # from src.services.file import get_output_files, get_output_file_as_base64
@@ -47,22 +50,22 @@ app.include_router(mri_router)
 #     filename = save_input_file(fileMRI.filename, fileMRI.file)
 #     return {"filename":filename}
 
-from pydantic import BaseModel
-class AlgorithmRun(BaseModel):
-    algorithm_id: str
-    filename: str
-    user_id: str
+# from pydantic import BaseModel
+# class AlgorithmRun(BaseModel):
+#     algorithm_id: str
+#     filename: str
+#     user_id: str
     
-from src.services.algorithm  import run_algorithm
+# from src.services.algorithm  import run_algorithm
 from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
 from src.domain.filepath_manager import BASE_DIR
 #execution_repository = InMemoryExecutionRepository()
 execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executions.json"))
 
-@app.post("/algorithm/run")
-def segment_brain(algorithm_run: AlgorithmRun):
-    msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, algorithm_run.user_id, execution_repository)
-    return { "message": msg }
+# @app.post("/algorithm/run")
+# def segment_brain(algorithm_run: AlgorithmRun):
+#     msg = run_algorithm(algorithm_run.algorithm_id, algorithm_run.filename, algorithm_run.user_id, execution_repository)
+#     return { "message": msg }
 
 from src.services.algorithm import get_algorithms
 from pydantic import BaseModel, ConfigDict
