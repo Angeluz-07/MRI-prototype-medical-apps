@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.entrypoints.mri_router import router as mri_router
 from src.entrypoints.algorithm_router import router as algorithm_router
+from src.entrypoints.execution_router import router as execution_router
 
 app = FastAPI()
 
@@ -20,7 +21,7 @@ app.add_middleware(
 
 app.include_router(mri_router)
 app.include_router(algorithm_router)
-
+app.include_router(execution_router)
 
 # from src.services.file import get_input_files, get_input_file_as_base64
 # from src.services.file import get_output_files, get_output_file_as_base64
@@ -57,10 +58,10 @@ app.include_router(algorithm_router)
 #     user_id: str
     
 # from src.services.algorithm  import run_algorithm
-from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
-from src.domain.filepath_manager import BASE_DIR
-#execution_repository = InMemoryExecutionRepository()
-execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executions.json"))
+# from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
+# from src.domain.filepath_manager import BASE_DIR
+# #execution_repository = InMemoryExecutionRepository()
+# execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executions.json"))
 
 # @app.post("/algorithm/run")
 # def segment_brain(algorithm_run: AlgorithmRun):
@@ -85,26 +86,26 @@ execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executio
 # def get_operations():
 #     return {"items":get_algorithms()}
 
-from src.services.execution import get_execution_details
+# from src.services.execution import get_execution_details
 from pydantic import BaseModel, ConfigDict
 from typing import List
-from datetime import datetime
+# from datetime import datetime
 
-class ExecutionDetailPublicSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    algorithm_name: str
-    user_name: str
-    timestamp: datetime
-    message: str
-    level: str 
-    id: str 
+# class ExecutionDetailPublicSchema(BaseModel):
+#     model_config = ConfigDict(from_attributes=True)
+#     algorithm_name: str
+#     user_name: str
+#     timestamp: datetime
+#     message: str
+#     level: str 
+#     id: str 
 
-class ExecutionsResponse(BaseModel):
-    items: List[ExecutionDetailPublicSchema]
+# class ExecutionsResponse(BaseModel):
+#     items: List[ExecutionDetailPublicSchema]
 
-@app.get("/execution-details", response_model=ExecutionsResponse)
-def get_operations():
-    return {"items":get_execution_details(execution_repository)}
+# @app.get("/execution-details", response_model=ExecutionsResponse)
+# def get_operations():
+#     return {"items":get_execution_details(execution_repository)}
 
 from src.services.auth import get_users_
 from src.repository.user import InMemoryUserRepository
