@@ -1,5 +1,6 @@
 from src.repository.file import FileRepository
-from src.domain.filepath_manager import WORKSPACE_DEFAULT_FOLDER, FilepathManager, RESULTS_FOLDER
+from src.domain.filepath_manager import FilepathManager
+from src.config import RESULTS_FOLDER, WORKSPACE_DEFAULT_FOLDER
 
 class FileService:
     def get_input_files(self):

@@ -3,7 +3,7 @@ from src.repository.execution import InMemoryExecutionRepository
 from src.repository.file import FileRepository
 from src.domain.services import get_implementation
 from src.domain.models import Execution
-from src.domain.filepath_manager import WORKSPACE_DEFAULT_FOLDER
+from src.config import WORKSPACE_DEFAULT_FOLDER
 
 
 class AlgorithmService:

@@ -8,10 +8,10 @@ from src.services.auth import AuthService
 from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
 from src.repository.user import InMemoryUserRepository
 
-from src.domain.filepath_manager import BASE_DIR
+from src.config import DATA_DIR
 
 #execution_repository = InMemoryExecutionRepository()
-execution_repository = JsonExecutionRepository(str(BASE_DIR / "data" / "executions.json"))
+execution_repository = JsonExecutionRepository(str(DATA_DIR / "executions.json"))
 
 file_service = FileService()
 algorithm_service = AlgorithmService(execution_repository)

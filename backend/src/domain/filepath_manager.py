@@ -1,12 +1,8 @@
 from pathlib import Path
 from base64 import b64encode
-import os
+from src.config import RESULTS_FOLDER
 
 # todo: check for better pattern
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-WORKSPACE_DEFAULT_FOLDER = BASE_DIR / "workspace" / "default"
-RESULTS_FOLDER = BASE_DIR / "out"
-
 class FilepathManager:
     @staticmethod
     def get_out_path(raw_filepath:str, suffix: str):
@@ -28,7 +24,3 @@ class FilepathManager:
         base64_string = encoded_content.decode('utf-8')     
         return base64_string
 
- 
-#r = FilepathManager.get_out_path("C:\\Users\\rmena\\Desktop\\dev\\MRI-prototype-medical-apps\\backend\\workspace\\default\\brain-lesion_T1w.nii.gz", "out")
-#r = FilepathManager.get_out_path("/app/workspace/default/brain-lesion_T1w.nii.gz", "out")
-#print(r)
