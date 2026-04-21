@@ -3,17 +3,15 @@ from src.services.algorithm import AlgorithmService
 from src.services.execution import ExecutionService
 from src.services.user import UserService
 from src.services.auth import AuthService
-
-
 from src.repository.execution import InMemoryExecutionRepository, JsonExecutionRepository
 from src.repository.user import InMemoryUserRepository
 
-from src.config import DATA_DIR
-
-#execution_repository = InMemoryExecutionRepository()
-execution_repository = JsonExecutionRepository(str(DATA_DIR / "executions.json"))
 
 file_service = FileService()
+
+#execution_repository = InMemoryExecutionRepository()
+execution_repository = JsonExecutionRepository()
+
 algorithm_service = AlgorithmService(execution_repository)
 execution_service = ExecutionService(execution_repository)
 

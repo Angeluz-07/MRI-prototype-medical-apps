@@ -27,9 +27,10 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
+from src.config import DATA_DIR
 
 class JsonExecutionRepository(Repository):
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str = str(DATA_DIR / "executions.json") ):
         self.file_path = Path(file_path)
         self._ensure_file_exists()
 
