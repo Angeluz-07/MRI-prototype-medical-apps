@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.entrypoints.api import router
 
 app = FastAPI()
 
@@ -16,33 +17,35 @@ app.add_middleware(
     allow_headers=["*"],     # Allows all headers, including Authorization and Content-Type
 )
 
-from src.services.file import get_input_files, get_input_file_as_base64
-from src.services.file import get_output_files, get_output_file_as_base64
-from src.services.file import save_input_file
+app.include_router(router)
 
-@app.get("/mri/images")
-def mri_images():
-    return {"images": get_input_files()}
+# from src.services.file import get_input_files, get_input_file_as_base64
+# from src.services.file import get_output_files, get_output_file_as_base64
+# from src.services.file import save_input_file
 
-@app.get("/mri/images/{id}")
-def mri_images(id:str):
-    return {"basestr": get_input_file_as_base64(id)}
+# @app.get("/mri/images")
+# def mri_images():
+#     return {"images": get_input_files()}
+
+# @app.get("/mri/images/{id}")
+# def mri_images(id:str):
+#     return {"basestr": get_input_file_as_base64(id)}
     
-@app.get("/mri/results")
-def mri_images_results():
-    return {"images": get_output_files()}
+# @app.get("/mri/results")
+# def mri_images_results():
+#     return {"images": get_output_files()}
 
-@app.get("/mri/results/{id}")
-def mri_images_results(id:str):
-    return {"basestr": get_output_file_as_base64(id)}
+# @app.get("/mri/results/{id}")
+# def mri_images_results(id:str):
+#     return {"basestr": get_output_file_as_base64(id)}
 
-from fastapi import UploadFile, File
-from typing import Annotated
+# from fastapi import UploadFile, File
+# from typing import Annotated
 
-@app.post("/mri/images")
-def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
-    filename = save_input_file(fileMRI.filename, fileMRI.file)
-    return {"filename":filename}
+# @app.post("/mri/images")
+# def save_mri_image( fileMRI: Annotated[UploadFile, File(...)]):
+#     filename = save_input_file(fileMRI.filename, fileMRI.file)
+#     return {"filename":filename}
 
 from pydantic import BaseModel
 class AlgorithmRun(BaseModel):
