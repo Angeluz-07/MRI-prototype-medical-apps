@@ -24,7 +24,7 @@ const Login = () => {
     try {
       // 1. Django + SimpleJWT espera un JSON, no URLSearchParams
       // 2. Axios convierte automáticamente el objeto a JSON
-      const response = await axios.post("http://localhost:8080/login/", {
+      const response = await axios.post("http://localhost:8080/auth/login/", {
         email: formData.username,
         password: formData.password,
       });

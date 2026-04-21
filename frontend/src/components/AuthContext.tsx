@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to fetch user data using the token
   const fetchUserData = async () => {
     try {
-      const API_URL = "http://127.0.0.1:8080/me";
+      const API_URL = "http://127.0.0.1:8080/auth/me";
 
       // 1. Get the token from storage
       const token = localStorage.getItem("access_token");

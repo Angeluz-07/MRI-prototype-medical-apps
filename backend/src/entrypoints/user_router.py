@@ -15,6 +15,6 @@ class UserDetailPublicSchema(BaseModel):
 class UsersResponse(BaseModel):
     items: List[UserDetailPublicSchema]
 
-@router.get("/users", response_model=UsersResponse)
+@router.get("/", response_model=UsersResponse)
 def get_users():
     return {"items":user_service.get_users()}
