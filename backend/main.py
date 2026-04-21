@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.entrypoints.mri_router import router as mri_router
 from src.entrypoints.algorithm_router import router as algorithm_router
 from src.entrypoints.execution_router import router as execution_router
+from src.entrypoints.user_router import router as user_router
 
 app = FastAPI()
 
@@ -22,6 +23,8 @@ app.add_middleware(
 app.include_router(mri_router)
 app.include_router(algorithm_router)
 app.include_router(execution_router)
+app.include_router(user_router)
+
 
 # from src.services.file import get_input_files, get_input_file_as_base64
 # from src.services.file import get_output_files, get_output_file_as_base64
@@ -107,22 +110,22 @@ from typing import List
 # def get_operations():
 #     return {"items":get_execution_details(execution_repository)}
 
-from src.services.auth import get_users_
+# from src.services.auth import get_users_
 from src.repository.user import InMemoryUserRepository
 users_repository = InMemoryUserRepository()
 
-class UserDetailPublicSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    id: str
-    username: str
-    email: str
+# class UserDetailPublicSchema(BaseModel):
+#     model_config = ConfigDict(from_attributes=True)
+#     id: str
+#     username: str
+#     email: str
 
-class UsersResponse(BaseModel):
-    items: List[UserDetailPublicSchema]
+# class UsersResponse(BaseModel):
+#     items: List[UserDetailPublicSchema]
 
-@app.get("/users", response_model=UsersResponse)
-def get_users():
-    return {"items":get_users_(users_repository)}
+# @app.get("/users", response_model=UsersResponse)
+# def get_users():
+#     return {"items":get_users_(users_repository)}
 
 from src.services.auth import auth_backend
 from src.services.auth import get_user_by_email, add_user, is_user_authorized
