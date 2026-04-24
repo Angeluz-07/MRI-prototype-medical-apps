@@ -6,7 +6,7 @@ import ants
 from antspynet.utilities import brain_extraction
 from src.config import CACHE_DIR
 
-def _img_process_run(raw_img_path):
+def _mask_brain(raw_img_path):
     print(f'AntsPy version = {ants.__version__}')
     print("processing...", raw_img_path)
     raw_img_ants = ants.image_read(raw_img_path, reorient='IAL')
@@ -27,8 +27,9 @@ def _img_process_run(raw_img_path):
     print("saved brain masked...")
 
 
+
 def get_implementation(alg_name):
     IMPLEMENTATIONS = {
-        "mask_brain" : _img_process_run
+        "mask_brain" : _mask_brain
     }
     return IMPLEMENTATIONS.get(alg_name)

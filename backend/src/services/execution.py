@@ -2,18 +2,18 @@ from src.repository.algorithm import InMemoryAlgorithmRepository
 from src.repository.user import InMemoryUserRepository
  
 class ExecutionService:
-    def __init__(self,execution_repository):
+    def __init__(self,algorithm_repository, execution_repository):
+        self.algorithm_repository = algorithm_repository
         self.execution_repository = execution_repository
 
     def get_execution_details(self):
-        algorithm_repository = InMemoryAlgorithmRepository()
         user_repository = InMemoryUserRepository()
         items = self.execution_repository.get_all()
         result = []
         for item in items:
             user_id = item.user_id
             algorithm_id = item.algorithm_id
-            algorithm = algorithm_repository.get_by_id(algorithm_id)
+            algorithm = self.algorithm_repository.get_by_id(algorithm_id)
             user = user_repository.get_by_id(user_id)
             for detail in item.details:
                 result_item = {}

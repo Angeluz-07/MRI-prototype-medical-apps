@@ -4,11 +4,7 @@ from src.repository.interfaces import Repository
 class InMemoryAlgorithmRepository(Repository):
     
     def __init__(self):
-        self.items = [
-            Algorithm(name="mask_brain", description="Given a T1 MRI image segment the brain and mask it", id="29a2ba2b-0db4-41bb-87b0-a5af98462a4e"), 
-            Algorithm(name="My second alg",description="dummy 2"), 
-            Algorithm(name="My third alg", description="dummy 3")
-        ]
+        self.items = []
 
     def get_all(self):
         return self.items

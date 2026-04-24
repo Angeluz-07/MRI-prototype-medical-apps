@@ -1,4 +1,3 @@
-from src.domain.services import get_implementation
 from src.domain.models import Execution
 
 
@@ -19,13 +18,12 @@ class AlgorithmService:
         if algorithm is None:
             raise Exception(f"unknown algorithm {algorithm_id}")
         
-        fn = get_implementation(algorithm.name)
         
         try:
             exec = Execution(algorithm_id=algorithm.id, user_id=user_id)
             exec.add_log("starting")
 
-            fn(img_full_path)
+            algorithm.run(img_full_path)
             
             exec.add_log("finished")
         except Exception:

@@ -4,6 +4,7 @@ from typing import List
 from uuid import UUID, uuid4
 from enum import Enum
 from datetime import timezone
+from collections.abc import Callable
 
 @dataclass
 class File:
@@ -13,6 +14,7 @@ class File:
 class Algorithm:
     name: str
     description: str
+    run: Callable = None # Assign the implementation function at initialization
     id: str = field(default_factory=lambda: str(uuid4()))
 
 @dataclass
