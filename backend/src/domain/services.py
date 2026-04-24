@@ -4,7 +4,7 @@ from src.domain.filepath_manager import FilepathManager
 
 import ants
 from antspynet.utilities import brain_extraction
-CACHE_DIR = "/app/data/models"
+from src.config import CACHE_DIR
 
 def _img_process_run(raw_img_path):
     print(f'AntsPy version = {ants.__version__}')
@@ -26,8 +26,9 @@ def _img_process_run(raw_img_path):
     masked.to_file(out_path)
     print("saved brain masked...")
 
+
 def get_implementation(alg_name):
     IMPLEMENTATIONS = {
-        "brain_extraction" : _img_process_run
+        "mask_brain" : _img_process_run
     }
     return IMPLEMENTATIONS.get(alg_name)

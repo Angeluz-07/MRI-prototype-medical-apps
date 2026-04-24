@@ -1,19 +1,17 @@
-from src.repository.algorithm import InMemoryAlgorithmRepository
-from src.repository.execution import InMemoryExecutionRepository
-from src.repository.file import FileRepository
 from src.domain.services import get_implementation
 from src.domain.models import Execution
-from src.config import WORKSPACE_DEFAULT_FOLDER
 
 
 class AlgorithmService:
-    def __init__(self, execution_repository):
-        self.execution_repository = execution_repository
+    def __init__(self, algorithm_repository, execution_repository, file_repository):
+        self.algorithm_repo = algorithm_repository
+        self.execution_repo = execution_repository
+        self.file_repo = file_repository
         
     def run_algorithm(self, algorithm_id, filename, user_id):
-        algorithm_repo = InMemoryAlgorithmRepository()
-        file_repo = FileRepository(WORKSPACE_DEFAULT_FOLDER)
-        execution_repo = self.execution_repository
+        algorithm_repo =  self.algorithm_repo
+        file_repo = self.file_repo
+        execution_repo = self.execution_repo
 
         img_full_path = file_repo.get_full_path(filename)
         algorithm = algorithm_repo.get_by_id(algorithm_id)
@@ -39,4 +37,4 @@ class AlgorithmService:
         return "success"
 
     def get_algorithms(self):
-        return InMemoryAlgorithmRepository().get_all()
+        return  self.algorithm_repo.get_all()

@@ -2,15 +2,17 @@ from typing import List
 from src.domain.models import File
 from src.repository.interfaces import Repository
 import shutil
+from src.config import WORKSPACE_DEFAULT_FOLDER
+from pathlib import Path
 
 #by now holds only input files
 class FileRepository(Repository):
     folder_path : str
     files : List[File]
 
-    def __init__(self, folder_path):
-        self.folder_path = folder_path
-        files =  [File(file_path.name) for file_path in folder_path.iterdir() if file_path.is_file()]
+    def __init__(self, folder_path = str(WORKSPACE_DEFAULT_FOLDER)):
+        self.folder_path = Path(folder_path)
+        files =  [File(file_path.name) for file_path in self.folder_path.iterdir() if file_path.is_file()]
         self.items = files
 
     def get_all(self):
