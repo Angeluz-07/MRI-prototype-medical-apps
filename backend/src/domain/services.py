@@ -27,9 +27,16 @@ def _mask_brain(raw_img_path):
     print("saved brain masked...")
 
 
+def _ants_denoise(raw_img_path):
+    raw_img_ants = ants.image_read(raw_img_path, reorient='IAL')
+    transformed = ants.denoise_image(raw_img_ants, shrink_factor=8)    
+    out_path = FilepathManager.get_out_path(raw_img_path,'antsDenoised')
+    transformed.to_file(out_path)
+    print("antsDenoised Finished...")
 
 def get_implementation(alg_name):
     IMPLEMENTATIONS = {
-        "mask_brain" : _mask_brain
+        "mask_brain" : _mask_brain,
+        "ants_denoise": _ants_denoise
     }
     return IMPLEMENTATIONS.get(alg_name)
